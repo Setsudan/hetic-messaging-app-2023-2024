@@ -1,0 +1,25 @@
+{
+  "name": "hetic-messaging-app-2023-2024",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "init": "concurrently \"cd server && npm install\" \"cd client && npm install\"",
+    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+    "build": "cd client && npm run build",
+    "lint:client": "cd client && npm run lint",
+    "lint:server": "cd server && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/setsudan/hetic-messaging-app-2023-2024.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/setsudan/hetic-messaging-app-2023-2024/issues"
+  },
+  "homepage": "https://github.com/setsudan/hetic-messaging-app-2023-2024#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
