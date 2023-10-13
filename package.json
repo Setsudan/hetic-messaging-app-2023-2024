@@ -1,6 +1,6 @@
 {
   "name": "hetic-messaging-app-2023-2024",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "scripts": {
     "init": "concurrently \"cd server && npm install\" \"cd client && npm install\"",
