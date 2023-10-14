@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  # database: # Postgres database
+    # build:
+      # context: ./db
+      # dockerfile: Dockerfile
+    # container_name: database
+    # environment:
+      # POSTGRES_DB: hetic-messaging-db
+      # POSTGRES_USER: root
+      # POSTGRES_PASSWORD: Test123456789*
+    # ports:
+      # - "5432:5432"
+    # volumes:
+      # - ./db:/var/lib/hetic-messaging/postgresql/data
+  server: # ExpressJS app
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: express_js
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: hetic-messaging-db
+      DB_USER: root
+      DB_PASSWORD: Test123456789*
+      PORT: 8080
+      API_VERSION: v0.0.1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/usr/src/app
+    depends_on:
+      - database
