@@ -1,0 +1,23 @@
+name: Build Server
+
+on:
+  push:
+    branches:
+      - 'version-*' # Build all version branches
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Enter server directory
+        run: cd server
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build server
+        run: yarn build
