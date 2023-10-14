@@ -1,11 +1,11 @@
-import Pool from 'pg';
+import { Client } from 'pg';
 
-// TODO: init postgresql database
-
-export const pool = new Pool.Pool({
-	user: 'to_determine',
-	host: 'localhost',
-	database: 'to_determine',
-	password: '',
-	port: 5432,
+export const client = new Client({
+	user: process.env.DB_USER,
+	host: 'postgres',
+	database: process.env.DB_NAME,
+	password: process.env.DB_PASSWORD,
+	port: parseInt(process.env.DB_PORT || '5432'),
 });
+
+export default client;
