@@ -1,53 +1,74 @@
--- Create the users table
-CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    display_name VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    profile_picture BLOB
+CREATE TABLE "users"(
+    "uid" UUID NOT NULL,
+    "profile_picture" VARCHAR(255) NOT NULL,
+    "display_name" VARCHAR(255) NOT NULL,
+    "username" VARCHAR(255) NOT NULL,
+    "password" BIGINT NOT NULL,
+    "phone_number" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "about" VARCHAR(255) NOT NULL
 );
 
--- Create the friends table
-CREATE TABLE friends (
-    user_id INT NOT NULL,
-    friend_id INT NOT NULL,
-    PRIMARY KEY (user_id, friend_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (friend_id) REFERENCES users(id)
+CREATE TABLE "chats"(
+    "uid" UUID NOT NULL,
+    "messageUID" UUID NOT NULL
 );
-
--- Create the groups table
-CREATE TABLE groups (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    creator_id INT NOT NULL,
-    FOREIGN KEY (creator_id) REFERENCES users(id)
+ALTER TABLE
+    "chats" ADD PRIMARY KEY("uid");
+CREATE TABLE "groups"(
+    "id" UUID NOT NULL,
+    "messageUID" UUID NOT NULL
 );
-
--- Create the group_members table
-CREATE TABLE group_members (
-    group_id INT NOT NULL,
-    user_id INT NOT NULL,
-    PRIMARY KEY (group_id, user_id),
-    FOREIGN KEY (group_id) REFERENCES groups(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+ALTER TABLE
+    "groups" ADD PRIMARY KEY("id");
+CREATE TABLE "users_group"(
+    "uid" UUID NOT NULL,
+    "user_UID" UUID NOT NULL,
+    "groupUID" UUID NOT NULL
 );
-
--- Create the messages table
-CREATE TABLE messages (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    sender_id INT NOT NULL,
-    recipient_id INT,
-    group_id INT,
-    content TEXT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    sent TIMESTAMP, -- Timestamp when the message was sent
-    received TIMESTAMP, -- Timestamp when the message was received
-    read TIMESTAMP, -- Timestamp when the message was read
-    FOREIGN KEY (sender_id) REFERENCES users(id),
-    FOREIGN KEY (recipient_id) REFERENCES users(id),
-    FOREIGN KEY (group_id) REFERENCES groups(id)
+ALTER TABLE
+    "users_group" ADD PRIMARY KEY("uid");
+CREATE TABLE "users_chats"(
+    "uuid" UUID NOT NULL,
+    "userUID" UUID NOT NULL,
+    "chatUID" BIGINT NOT NULL
 );
+ALTER TABLE
+    "users_chats" ADD PRIMARY KEY("uuid");
+CREATE TABLE "messages"(
+    "uid" UUID NOT NULL,
+    "sender_uid" UUID NOT NULL,
+    "chat_uid" UUID NULL,
+    "group_uid" UUID NULL,
+    "type" VARCHAR(255) CHECK
+        ("type" IN('')) NOT NULL,
+        "content" VARCHAR(255) NOT NULL,
+        "sent_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+        "seen_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+        "delivered_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL
+);
+ALTER TABLE
+    "messages" ADD PRIMARY KEY("uid");
 
+ALTER TABLE
+    "users" ADD PRIMARY KEY("uid");
+ALTER TABLE
+    "users" ADD CONSTRAINT "users_username_unique" UNIQUE("username");
+ALTER TABLE
+    "messages" ADD CONSTRAINT "messages_group_uid_foreign" FOREIGN KEY("group_uid") REFERENCES "groups"("id");
+ALTER TABLE
+    "users_group" ADD CONSTRAINT "users_group_user_uid_foreign" FOREIGN KEY("user_UID") REFERENCES "users"("uid");
+ALTER TABLE
+    "chats" ADD CONSTRAINT "chats_messageuid_foreign" FOREIGN KEY("messageUID") REFERENCES "messages"("uid");
+ALTER TABLE
+    "users_group" ADD CONSTRAINT "users_group_groupuid_foreign" FOREIGN KEY("groupUID") REFERENCES "groups"("id");
+ALTER TABLE
+    "users_chats" ADD CONSTRAINT "users_chats_chatuid_foreign" FOREIGN KEY("chatUID") REFERENCES "chats"("uid");
+ALTER TABLE
+    "users_chats" ADD CONSTRAINT "users_chats_useruid_foreign" FOREIGN KEY("userUID") REFERENCES "users"("uid");
+ALTER TABLE
+    "groups" ADD CONSTRAINT "groups_messageuid_foreign" FOREIGN KEY("messageUID") REFERENCES "messages"("uid");
+ALTER TABLE
+    "messages" ADD CONSTRAINT "messages_chat_uid_foreign" FOREIGN KEY("chat_uid") REFERENCES "chats"("uid");
+ALTER TABLE
+    "messages" ADD CONSTRAINT "messages_sender_uid_foreign" FOREIGN KEY("sender_uid") REFERENCES "users"("uid");
