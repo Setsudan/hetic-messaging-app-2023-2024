@@ -2,13 +2,9 @@ import { Response } from '../types/response.types';
 import client from '../pg';
 
 export async function getUsers(): Promise<Response> {
-	console.log('func: getUsers');
 	try {
-		console.log('try: getUsers');
 		await client.connect();
-		console.log('connected');
-		const result = await client.query('SELECT * FROM users');
-		console.log('result', result);
+		const result = await client.query('SELECT user_id, username, email, created_at FROM users');
 		return {
 			code: 200,
 			requestTime: new Date(),
