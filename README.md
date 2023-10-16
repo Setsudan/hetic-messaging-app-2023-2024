@@ -59,6 +59,10 @@ To stop the database, run the following command:
 docker-compose down
 ```
 
+### Database structure
+
+![Database structure](./db/db.png)
+
 ## Documentation(server): Swagger
 
 The documentation is generated using Swagger. It is availiable at the following URL:
