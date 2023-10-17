@@ -9,6 +9,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm rebuild bcrypt --update-binary
+
 RUN npm run build
 
 # Run the app
