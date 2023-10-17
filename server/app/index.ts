@@ -3,10 +3,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import { mainRouter } from './routes/router';
-// import { mongoRun } from './db/mongo-init';
 
-/* Database */
-// mongoRun();
 
 /* Configuration */
 dotenv.config({ path: path.join(__dirname, '../.env') });
@@ -22,4 +19,5 @@ app.use('/api/v1', mainRouter);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
+	console.log('Jn');
 });
