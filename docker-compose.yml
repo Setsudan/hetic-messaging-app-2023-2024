@@ -25,18 +25,19 @@ services:
     depends_on:
       - database
   server: # ExpressJS app
+    restart: always
     build:
       context: ./server
       dockerfile: Dockerfile
     container_name: express_js
     environment:
-      DB_HOST: database
       DB_PORT: 5432
       DB_NAME: hetic-messaging-db
       DB_USER: root
       DB_PASSWORD: Test123456789*
       PORT: 8080
       API_VERSION: v0.0.1
+      JWT_SECRET: QwfXMLOKe8RRaY0ncfJAF5VZqEWF8E9ahISgmNrD
     ports:
       - "8080:8080"
     volumes:

@@ -9,7 +9,10 @@
     "build:server": "cd server && npm install && npm run build",
     "build:client": "cd client && npm install && npm run build",
     "lint:client": "cd client && npm run lint",
-    "lint:server": "cd server && npm run lint"
+    "lint:server": "cd server && npm run lint",
+    "docker:start": "docker-compose up -d",
+    "docker:build": "docker-compose up --build -d",
+    "docker:stop": "docker-compose down"
   },
   "repository": {
     "type": "git",
