@@ -30,11 +30,11 @@ La partie serveur de ce projet est construite en utilisant ExpressJS, un framewo
 |- swagger.ts          // Générateur de documentation
 ```
 
-## Client : React Native
+## mobile : React Native
 
 ### Structure
 
-La partie client de ce projet utilise React Native pour le développement de l'application mobile. Voici un aperçu de la structure du répertoire du client :
+La partie mobile de ce projet utilise React Native pour le développement de l'application mobile. Voici un aperçu de la structure du répertoire du mobile :
 
 ```
 |- assets            // Contient des ressources telles que des images et des polices
@@ -67,7 +67,7 @@ La documentation est générée à l'aide de Swagger. Elle est disponible à l'U
 http://localhost:8080/api/v1/docs
 ```
 
-## Documentation (client) : Storybook
+## Documentation (mobile) : Storybook
 
 La documentation est générée à l'aide de Storybook. Pour l'ouvrir sur l'émulateur Android/IOS, exécutez la commande suivante :
 
