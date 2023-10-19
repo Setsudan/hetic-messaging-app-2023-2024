@@ -1,0 +1,33 @@
+---
+title: Documentation de la messagerie HETIC
+description: Site officiel de la documentation de la messagerie HETIC
+template: splash
+hero:
+  tagline: Je vous ai créer une mini documentation global. Je vais faire de mon mieux pour la mettre à jours régulièrement. Et oui, il faut choisir un nom pour l'app je sais
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Commencer
+      link: /guides/how/
+      icon: right-arrow
+      variant: primary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Comment participer
+
+<CardGrid stagger>
+	<Card title="Update content" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+	<Card title="Add new content" icon="add-document">
+		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	</Card>
+	<Card title="Configure your site" icon="setting">
+		Edit your `sidebar` and other config in `astro.config.mjs`.
+	</Card>
+	<Card title="Read the docs" icon="open-book">
+		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	</Card>
+</CardGrid>
