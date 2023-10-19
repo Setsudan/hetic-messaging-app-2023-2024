@@ -5,9 +5,9 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'Documentation Messagerie Hetic',
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/setsudan/hetic-messaging-app-2023-2024',
 			},
 			sidebar: [
 				{
