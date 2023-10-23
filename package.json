@@ -3,16 +3,16 @@
   "version": "0.0.2",
   "description": "",
   "scripts": {
-    "init": "concurrently \"cd server && npm install\" \"cd client && npm install\"",
-    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
-    "build": "cd client && npm run build",
+    "init": "concurrently \"cd server && npm install\" \"cd mobile && npm install\"",
+    "start": "concurrently \"cd server && npm start\" \"cd mobile && npm start\"",
+    "build": "cd mobile && npm run build",
     "build:server": "cd server && npm install && npm run build",
-    "build:client": "cd client && npm install && npm run build",
-    "lint:client": "cd client && npm run lint",
+    "build:mobile": "cd mobile && npm install && npm run build",
+    "lint:mobile": "cd mobile && npm run lint",
     "lint:server": "cd server && npm run lint",
     "docker:start": "docker-compose up -d",
     "docker:build": "docker-compose up --build -d",
-    "docker:stop": "docker-compose down"
+    "docker:stop": "docker-compose down"    
   },
   "repository": {
     "type": "git",
