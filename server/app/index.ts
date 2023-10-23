@@ -16,14 +16,6 @@ app.get('/', (req, res) => {
 app.use('/api/v1', mainRouter);
 
 
-/* Server */
-/* const port = process.env.PORT || 3000;
-app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
-	console.log('Jn');
-
-}); */
-
 /* Server and websocket */
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {

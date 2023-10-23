@@ -3,17 +3,6 @@ const router = express.Router();
 import { getUsers } from '../../handlers/users';
 import { Response } from '../../types/response.types';
 
-/**
- * @swagger
- * /users/getAllUsers:
- *  get:
- *   description: Get all users
- *   responses:
- *     200:
- *       description: Success
- *     500:
- *       description: Server error
- */
 
 router.get('/getAll', async (req, res) => {
 	try {
