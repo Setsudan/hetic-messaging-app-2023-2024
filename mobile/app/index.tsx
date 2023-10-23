@@ -1,39 +1,35 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router"
+import React from "react";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider, Divider, Layout, List, Text } from "@ui-kitten/components";
 
+import { Link } from "expo-router";
 
-const App = () => {
-    return (
-        <View style={styles.container}>
-            <Text>Welcome to my React Native app!</Text>
-            <View style={styles.columns}>
-                <Link
-                    style={styles.links}
-                    href={"/auth/signUp"}>Sign Up</Link>
-            </View>
-        </View>
-    );
-};
+const HomeScreen = () => (
+    <Layout style={{ flex: 1 }}>
+        <Text category="h1" style={{ textAlign: "center", marginTop: 32 }}>
+            Routes list
+        </Text>
+        <List
+            style={{ flex: 1, margin: 16, borderRadius: 18 }}
+            data={[
+                { title: "Sign Up", route: "/auth/signUp" },
+                { title: "Sign In", route: "/auth/signIn" },
+                { title: "Home", route: "/home" },
+            ]}
+            renderItem={({ item }) => (
+                <>
+                    <Link href={item.route} style={{ fontSize: 18, marginVertical: 24, marginHorizontal: 12 }}>
+                        <Text style={{ marginVertical: 16 }}>{item.title}</Text>
+                    </Link>
+                    <Divider />
+                </>
+            )}
+        />
+    </Layout>
+);
 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    links: {
-        marginTop: 20,
-        color: "#2b2b2b",
-        padding: 10,
-        borderBottomColor: "#2b2b2b",
-        width: 100,
-        textAlign: "center",
-        borderBottomWidth: 1
-    },
-    columns: {
-        flexDirection: "row"
-    }
-});
-
-export default App;
+export default () => (
+    <ApplicationProvider {...eva} theme={eva.dark}>
+        <HomeScreen />
+    </ApplicationProvider>
+);

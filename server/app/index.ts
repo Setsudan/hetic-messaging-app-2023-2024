@@ -20,7 +20,7 @@ app.use('/api/v1', mainRouter);
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
-	console.log('Jn');
+	console.log(`WebSocket listening on URL ws://localhost:${port}`);
 });
 
 const wss = new WebSocket.Server({ server });

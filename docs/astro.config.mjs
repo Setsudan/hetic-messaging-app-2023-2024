@@ -11,8 +11,12 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: 'Guides',
-					autogenerate: { directory: 'guides' },
+					label: 'Commencer',
+					link: '/docs/getting-started',
+				},
+				{
+					label: 'Connecter Websocket',
+					link: '/docs/connect-websocket',
 				},
 				{
 					label: 'Reference',
