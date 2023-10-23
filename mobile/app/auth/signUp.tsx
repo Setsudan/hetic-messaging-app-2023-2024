@@ -1,11 +1,9 @@
 import { View, Text } from "react-native";
-
-import { SignUpBody } from "../../types/API/auth.types";
-
-export default function SignUp() {
+import { Link } from "expo-router";
+export default function SignUpScreen() {
     return (
         <View>
-            <Text>SignUp Route</Text>
+            <Link href="/">home</Link>
+            <Text>Sign Up Screen</Text>
         </View>
-    );
-}
+    )
