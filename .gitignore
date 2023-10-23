@@ -3,3 +3,4 @@ database/**
 pgadmin/**
 package-*.json
 *.local
+mobile/.env
