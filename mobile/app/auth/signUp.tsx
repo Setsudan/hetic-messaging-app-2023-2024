@@ -1,32 +1,32 @@
 import { Layout, Text } from "@ui-kitten/components";
-import checkWebSocketConnection from "../../utils/websocket";
 import { useEffect, useState } from "react";
+
+// const socket = new WebSocket('ws://192.168.1.221:8080');
+const socket = new WebSocket(`ws://${process.env.EXPO_PUBLIC_API_IP}:8080`);
 
 export default function SignUpScreen() {
 
-    const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
-
     useEffect(() => {
-        setIsWebSocketConnected(checkWebSocketConnection());
+        console.log('Connecting...');
+        // Handle messages received from the server
+        socket.onmessage = (event) => {
+            console.log('Received message from server:', event.data);
+        };
+
+        // Send a message to the server
+        socket.send('Hello, server!');
+
+        return () => {
+            // Close the WebSocket connection when the component unmounts
+            socket.close();
+        };
     }, []);
-
-    useEffect(() => {
-        if (isWebSocketConnected) {
-            console.log("WebSocket is connected");
-        } else {
-            console.log("WebSocket is not connected");
-        }
-    }
-        , [isWebSocketConnected]);
 
 
     return (
         <Layout style={{ flex: 1 }}>
             <Text category="h1" style={{ textAlign: "center", marginTop: 32 }}>
                 SignUp screen
-            </Text>
-            <Text style={{ textAlign: "center", marginTop: 32 }}>
-                WebSocket is {isWebSocketConnected ? "connected" : "not connected"}
             </Text>
             {/* <Button onPress={() => { handlePress() }}>Sign Up</Button> */}
         </Layout>
