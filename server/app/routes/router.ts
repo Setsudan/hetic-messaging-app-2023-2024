@@ -2,10 +2,8 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { serve, setup } from 'swagger-ui-express';
 import { defaultRouter } from './default/index';
 import { userRouter } from './users';
-import { specs } from '../swagger';
 import { authRouter } from './auth';
 
 
@@ -18,7 +16,6 @@ router.use(express.urlencoded({ extended: false }));
 router.use('/', defaultRouter);
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
-router.use('/docs', serve, setup(specs));
 
 //Not found route
 router.use((req, res) => {

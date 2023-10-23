@@ -7,14 +7,12 @@ const router = express.Router();
 
 const emailRegex = new RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$');
 const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])');
-// password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character
 
 router.post('/signUp', (req: Request, res: Response) => {
 	console.log('received signUp request');
 	const user: UserForSignUp = req.body;
 
 	if (Object.keys(user).length === 0) {
-		console.log('body is empty');
 		res.status(400).json({
 			code: 400,
 			requestTime: new Date(),
@@ -23,7 +21,6 @@ router.post('/signUp', (req: Request, res: Response) => {
 			data: [],
 		});
 	} else if (!emailRegex.test(user.email)) {
-		console.log('email is not valid');
 		res.status(400).json({
 			code: 400,
 			requestTime: new Date(),
@@ -32,7 +29,6 @@ router.post('/signUp', (req: Request, res: Response) => {
 			data: [],
 		});
 	} else if (!passwordRegex.test(user.password)) {
-		console.log('password is not valid');
 		res.status(400).json({
 			code: 400,
 			requestTime: new Date(),
@@ -41,7 +37,6 @@ router.post('/signUp', (req: Request, res: Response) => {
 			data: [],
 		});
 	}
-	console.log('creating user');
 	createUser(user).then((response) => {
 		res.status(200).json(response);
 	});
