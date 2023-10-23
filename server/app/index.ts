@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import { mainRouter } from './routes/router';
-
+import WebSocket from 'ws';
 
 /* Configuration */
 dotenv.config({ path: path.join(__dirname, '../.env') });
@@ -15,9 +15,33 @@ app.get('/', (req, res) => {
 });
 app.use('/api/v1', mainRouter);
 
+
 /* Server */
-const port = process.env.PORT || 3000;
+/* const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
 	console.log('Jn');
+
+}); */
+
+/* Server and websocket */
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+	console.log(`Server is running on port ${port}`);
+	console.log('Jn');
+});
+
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws: WebSocket) => {
+	console.log('Client connected');
+
+	ws.on('message', (message: string) => {
+		console.log('Message received: ' + message);
+		ws.send('Message received: ' + message);
+	});
+
+	ws.on('close', () => {
+		console.log('Client disconnected');
+	});
 });
