@@ -30,11 +30,11 @@ The server-side of this project is built using ExpressJS, a popular Node.js fram
 |- swagger.ts          // Documentation generator
 ```
 
-## Client: React Native
+## mobile: React Native
 
 ### Structure
 
-The client-side of this project utilizes React Native for mobile app development. Here's an overview of the client's directory structure:
+The mobile-side of this project utilizes React Native for mobile app development. Here's an overview of the mobile's directory structure:
 
 ```
 |- assets            // Contains assets such as images and fonts
@@ -71,7 +71,7 @@ The documentation is generated using Swagger. It is availiable at the following 
 http://localhost:8080/api/v1/docs
 ```
 
-## Documentation(client): Storybook
+## Documentation(mobile): Storybook
 
 The documentation is generated using Storybook. To open it on the android/IOS emulator, run the following command:
 
