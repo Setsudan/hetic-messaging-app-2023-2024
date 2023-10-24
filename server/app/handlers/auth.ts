@@ -1,4 +1,4 @@
-import client from '../pg';
+import db from '../pg';
 import { UserForSignUp } from '../types/user.type';
 import { Response } from '../types/response.types';
 import { compare, hash } from 'bcrypt';
@@ -17,7 +17,7 @@ export async function createUser(body: UserForSignUp) {
 			RETURNING uid, display_name, username, phone_number, email;
 		`;
 		const values = [uuidGenerator(), display_name, username, hashedPassword, phone_number, email];
-		const { rows } = await client.query(query, values);
+		const { rows } = await db.query(query, values);
 		return rows[0];
 	}
 	catch (err) {
@@ -33,7 +33,7 @@ export async function loginUser(identity: string, password: string): Promise<Res
 			FROM users
 			WHERE username=$1 OR email=$1;
 		`;
-		const { rows } = await client.query(query, [identity]);
+		const { rows } = await db.query(query, [identity]);
 		const user = rows[0];
 
 		console.log(rows,user);

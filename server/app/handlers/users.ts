@@ -1,9 +1,9 @@
 import { Response } from '../types/response.types';
-import client from '../pg';
+import db from '../pg';
 
 export async function getUsers(): Promise<Response> {
 	try {
-		const result = await client.query('SELECT profile_picture, display_name, username, phone_number, email, about FROM users');
+		const result = await db.query('SELECT profile_picture, display_name, username, phone_number, email, about FROM users');
 		return {
 			code: 200,
 			requestTime: new Date(),
@@ -24,7 +24,7 @@ export async function getUsers(): Promise<Response> {
 
 export async function doesUserExist(username: string, email:string): Promise<boolean> {
 	try {
-		const result = await client.query('SELECT uid FROM users WHERE username=$1 OR email=$2', [username, email]);
+		const result = await db.query('SELECT uid FROM users WHERE username=$1 OR email=$2', [username, email]);
 		return result.rowCount > 0;
 	} catch (err) {
 		return false;
