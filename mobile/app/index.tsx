@@ -15,6 +15,10 @@ const HomeScreen = () => (
                 { title: "Sign Up", route: "/auth/signUp" },
                 { title: "Sign In", route: "/auth/signIn" },
                 { title: "Home", route: "/home" },
+                { title: "Settings", route: "/settings" },
+                { title: "Profile", route: "/settings/profile" },
+                // { title: "Notifications", route: "/settings/notifications" },
+                // { title: "Other Settings", route: "/settings/otherSettings" },
             ]}
             renderItem={({ item }) => (
                 <>
