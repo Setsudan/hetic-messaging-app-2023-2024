@@ -1,12 +1,12 @@
 CREATE TABLE "users"(
     "uid" UUID NOT NULL,
-    "profile_picture" VARCHAR(255) NOT NULL,
+    "profile_picture" VARCHAR(255) NULL,
     "display_name" VARCHAR(255) NOT NULL,
     "username" VARCHAR(255) NOT NULL,
     "password" VARCHAR NOT NULL,
-    "phone_number" VARCHAR(255) NOT NULL,
+    "phone_number" VARCHAR(255) NULL,
     "email" VARCHAR(255) NOT NULL,
-    "about" VARCHAR(255) NOT NULL
+    "about" VARCHAR(255) NULL
 );
 
 CREATE TABLE "chats"(
