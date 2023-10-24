@@ -7,16 +7,12 @@ description: Le projet en plus de détails
 
 Le projet est répartie en plusieurs parties :
 
-- **database** : le contenu de la base de données utilisé par docker
-- **db** : Le diagramme de la base de données et le SQL de base
 - **docs** : la documentation du projet
 - **mobile** : l'application mobile
-- **pgadmin** : le contenu pgadmin pour la base de données utilisé par docker
 - **server** : le backend/api
-- **web** : le site web
 
-En soit, en tant que dev. On utilisera que **mobile**, **mobile**, **server** et
-**web**. Le reste on y touche pas trop (sauf **docs** qui est pour ce site).
+En soit, en tant que dev. On utilisera que **mobile** et **server**. Le reste on
+y touche pas trop (sauf **docs** qui est pour ce site).
 
 ## Les technologies
 
@@ -26,10 +22,6 @@ En soit, en tant que dev. On utilisera que **mobile**, **mobile**, **server** et
 - Expo
 - React Navigation
 
-### Web
-
-- Preact (React mais plus léger)
-
 ### Server
 
 - NodeJS
@@ -37,8 +29,8 @@ En soit, en tant que dev. On utilisera que **mobile**, **mobile**, **server** et
 
 ### Database
 
-- PostgreSQL
-- pgAdmin
+- Planetscale
+- MySQL
 
 ## Les outils
 
@@ -47,7 +39,7 @@ En soit, en tant que dev. On utilisera que **mobile**, **mobile**, **server** et
 - Github
 - Github Actions
 - Github Packages
-- Swagger
+- Prisma
 - Postman
 
 # Les conventions

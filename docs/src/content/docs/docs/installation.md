@@ -72,7 +72,7 @@ EXPO_PUBLIC_API_IP=
 Pour lancer le projet exécuter la commande suivante :
 
 ```bash
-npm run docker:build
+npm run start
 ```
 
 Cette commande va lancer les conteneurs docker du projet.

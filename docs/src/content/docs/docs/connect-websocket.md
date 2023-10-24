@@ -27,9 +27,7 @@ Pour lancer l'API, il faut ouvrir un terminal dans le projet et taper la
 commande suivante :
 
 ```bash
-npm run docker:build # si c'est la première fois
-# ou
-npm run docker:start # Si vous aviez déjà lancer le container au moins une fois
+npm run start:server
 ```
 
 ## Step 3 : Renseigner les variables environnementales côté Mobile
