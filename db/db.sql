@@ -41,12 +41,13 @@ CREATE TABLE "messages"(
     "chat_uid" UUID NULL,
     "group_uid" UUID NULL,
     "type" VARCHAR(255) CHECK
-        ("type" IN('')) NOT NULL,
-        "content" VARCHAR(255) NOT NULL,
-        "sent_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-        "seen_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
-        "delivered_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL
+        ("type" IN('text', 'image', 'video', 'audio', 'file')) NOT NULL,
+    "content" VARCHAR(255) NOT NULL,
+    "sent_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "seen_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+    "delivered_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL
 );
+
 ALTER TABLE
     "messages" ADD PRIMARY KEY("uid");
 

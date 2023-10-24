@@ -1,4 +1,4 @@
-import db from '../pg';
+import { prisma } from '../prisma';
 import { UserForSignUp } from '../types/user.type';
 import { Response } from '../types/response.types';
 import { compare, hash } from 'bcrypt';
@@ -7,39 +7,50 @@ import { v4 as uuid } from 'uuid';
 
 const uuidGenerator = uuid;
 
-export async function createUser(body: UserForSignUp) {
+export async function createUser(body: UserForSignUp): Promise<Response> {
 	try {
-		const { display_name, username, password, phone_number, email } = body;
+		const { display_name, username, password, email } = body;
 		const hashedPassword = await hash(password, 10);
-		const query = `
-			INSERT INTO users (uid, display_name, username, password, phone_number, email)
-			VALUES ($1, $2, $3, $4, $5, $6)
-			RETURNING uid, display_name, username, phone_number, email;
-		`;
-		const values = [uuidGenerator(), display_name, username, hashedPassword, phone_number, email];
-		const { rows } = await db.query(query, values);
-		return rows[0];
+		const user = await prisma.users.create({
+			data: {
+				uuid: uuidGenerator(),
+				display_name,
+				username,
+				password: hashedPassword,
+				email,
+				profile_picture: '',
+			},
+		});
+		return {
+			code: 200,
+			requestTime: new Date(),
+			message: 'Success',
+			apiVersion: process.env.API_VERSION || '',
+			data: [user],
+		};
 	}
 	catch (err) {
-		return err;
+		return {
+			code: 500,
+			requestTime: new Date(),
+			message: 'Server error',
+			apiVersion: process.env.API_VERSION || '',
+			data: [err],
+		};
 	}
 }
 
 export async function loginUser(identity: string, password: string): Promise<Response> {
-	console.log('loginUser', identity, password);
 	try {
-		const query = `
-			SELECT uid, username, password
-			FROM users
-			WHERE username=$1 OR email=$1;
-		`;
-		const { rows } = await db.query(query, [identity]);
-		const user = rows[0];
-
-		console.log(rows,user);
-
+		const user = await prisma.users.findFirst({
+			where: {
+				OR: [
+					{ username: identity },
+					{ email: identity },
+				],
+			},
+		});
 		if (!user) {
-			console.log('user not found');
 			return {
 				code: 404,
 				requestTime: new Date(),
@@ -48,9 +59,7 @@ export async function loginUser(identity: string, password: string): Promise<Res
 				data: [],
 			};
 		}
-
 		const valid = await compare(password, user.password);
-
 		if (!valid) {
 			return {
 				code: 401,
@@ -60,9 +69,7 @@ export async function loginUser(identity: string, password: string): Promise<Res
 				data: [],
 			};
 		}
-
-		const token = process.env.JWT_SECRET ? sign({ uid: user.uid }, process.env.JWT_SECRET) : '';
-
+		const token = process.env.JWT_SECRET ? sign({ uid: user.uuid }, process.env.JWT_SECRET) : '';
 		return {
 			code: 200,
 			requestTime: new Date(),

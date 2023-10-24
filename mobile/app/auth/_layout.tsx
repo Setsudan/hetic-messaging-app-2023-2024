@@ -4,7 +4,6 @@ import * as eva from "@eva-design/eva";
 import React from 'react';
 import { TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 
-
 export default function AuthLayout() {
     const goBackString = `<- go home`;
     return (
