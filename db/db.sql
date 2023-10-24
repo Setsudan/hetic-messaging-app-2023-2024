@@ -1,12 +1,12 @@
 CREATE TABLE "users"(
     "uid" UUID NOT NULL,
-    "profile_picture" VARCHAR(255) NOT NULL,
+    "profile_picture" VARCHAR(255) NULL,
     "display_name" VARCHAR(255) NOT NULL,
     "username" VARCHAR(255) NOT NULL,
-    "password" BIGINT NOT NULL,
-    "phone_number" VARCHAR(255) NOT NULL,
+    "password" VARCHAR NOT NULL,
+    "phone_number" VARCHAR(255) NULL,
     "email" VARCHAR(255) NOT NULL,
-    "about" VARCHAR(255) NOT NULL
+    "about" VARCHAR(255) NULL
 );
 
 CREATE TABLE "chats"(
@@ -31,7 +31,7 @@ ALTER TABLE
 CREATE TABLE "users_chats"(
     "uuid" UUID NOT NULL,
     "userUID" UUID NOT NULL,
-    "chatUID" BIGINT NOT NULL
+    "chatUID" UUID NOT NULL
 );
 ALTER TABLE
     "users_chats" ADD PRIMARY KEY("uuid");
