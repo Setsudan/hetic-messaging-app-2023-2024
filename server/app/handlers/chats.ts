@@ -1,6 +1,8 @@
 import { prisma } from '../prisma';
 import { Chats } from '@prisma/client';
 import { Response } from '../types/response.types';
+import sendRes from '../common/response.common';
+
 export async function createChat(body: Chats): Promise<unknown> {
 	try {
 		const chat = await prisma.chats.create({
@@ -26,21 +28,9 @@ export async function getChats(): Promise<Response> {
 				updated_at: true,
 			},
 		});
-		return {
-			code: 200,
-			requestTime: new Date(),
-			message: 'Success',
-			apiVersion: process.env.API_VERSION || '',
-			data: chats,
-		};
+		return sendRes(200, 'Success', chats);
 	}
 	catch (err) {
-		return {
-			code: 500,
-			requestTime: new Date(),
-			message: 'Server error',
-			apiVersion: process.env.API_VERSION || '',
-			data: [err],
-		};
+		return sendRes(500, 'Server error', [err]);
 	}
 }

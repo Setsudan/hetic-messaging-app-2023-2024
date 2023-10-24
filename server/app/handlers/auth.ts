@@ -4,6 +4,7 @@ import { Response } from '../types/response.types';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
+import sendRes from '../common/response.common';
 
 const uuidGenerator = uuid;
 
@@ -21,22 +22,10 @@ export async function createUser(body: UserForSignUp): Promise<Response> {
 				profile_picture: '',
 			},
 		});
-		return {
-			code: 200,
-			requestTime: new Date(),
-			message: 'Success',
-			apiVersion: process.env.API_VERSION || '',
-			data: [user],
-		};
+		return sendRes(201, 'Success', [user]);
 	}
 	catch (err) {
-		return {
-			code: 500,
-			requestTime: new Date(),
-			message: 'Server error',
-			apiVersion: process.env.API_VERSION || '',
-			data: [err],
-		};
+		return sendRes(500, 'Server error', [err]);
 	}
 }
 
@@ -51,41 +40,17 @@ export async function loginUser(identity: string, password: string): Promise<Res
 			},
 		});
 		if (!user) {
-			return {
-				code: 404,
-				requestTime: new Date(),
-				message: 'User not found',
-				apiVersion: process.env.API_VERSION || '',
-				data: [],
-			};
+			return sendRes(404, 'User not found', []);
 		}
 		const valid = await compare(password, user.password);
 		if (!valid) {
-			return {
-				code: 401,
-				requestTime: new Date(),
-				message: 'Invalid password',
-				apiVersion: process.env.API_VERSION || '',
-				data: [],
-			};
+			return sendRes(401, 'Invalid password', []);
 		}
 		const token = process.env.JWT_SECRET ? sign({ uid: user.uuid }, process.env.JWT_SECRET) : '';
-		return {
-			code: 200,
-			requestTime: new Date(),
-			message: 'Success',
-			apiVersion: process.env.API_VERSION || '',
-			data: [token],
-		};
+		return sendRes(200, 'Success', [{ token }]);
 	}
 	catch (err) {
-		return {
-			code: 500,
-			requestTime: new Date(),
-			message: 'Server error',
-			apiVersion: process.env.API_VERSION || '',
-			data: [err],
-		};
+		return sendRes(500, 'Server error', [err]);
 	}
 }
 

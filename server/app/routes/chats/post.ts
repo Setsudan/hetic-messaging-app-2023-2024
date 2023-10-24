@@ -2,19 +2,14 @@ import express from 'express';
 import { createChat } from '../../handlers/chats';
 import { Request, Response } from 'express';
 import { v4 as generateUUID } from 'uuid';
+import sendRes from '../../common/response.common';
 const router = express.Router();
 
 router.post('/create', async (req: Request, res: Response) => {
 	const requestBody = req.body;
 
 	if (Object.keys(requestBody).length === 0) {
-		return res.status(400).json({
-			code: 400,
-			requestTime: new Date(),
-			message: 'Body is empty',
-			apiVersion: process.env.API_VERSION || '',
-			data: [],
-		});
+		return res.status(400).json(sendRes(400, 'Request body is empty', []));
 	}
 
 	const chat = await createChat({
@@ -25,13 +20,7 @@ router.post('/create', async (req: Request, res: Response) => {
 		updated_at: new Date(),
 	});
 
-	res.status(200).json({
-		code: 200,
-		requestTime: new Date(),
-		message: 'Success',
-		apiVersion: process.env.API_VERSION || '',
-		data: [chat],
-	});
+	res.status(200).json(sendRes(200, 'Success', [chat]));
 });
 
 

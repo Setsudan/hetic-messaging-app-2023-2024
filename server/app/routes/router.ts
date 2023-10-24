@@ -6,6 +6,7 @@ import { defaultRouter } from './default/index';
 import { userRouter } from './users';
 import { authRouter } from './auth';
 import { chatsRouter } from './chats';
+import sendRes from '../common/response.common';
 
 dotenv.config({ path: path.join(__dirname, '../../.env.local') });
 const router = express.Router();
@@ -20,13 +21,7 @@ router.use('/chats', chatsRouter);
 
 //Not found route
 router.use((req, res) => {
-	const response = {
-		code: 404,
-		requestTime: new Date(),
-		message: 'Not found',
-		apiVersion: process.env.API_VERSION,
-	};
-	res.status(404).json(response);
+	res.status(404).json(sendRes(404, 'Not found', []));
 });
 
 export {router as mainRouter};

@@ -8,12 +8,9 @@ import WebSocket from 'ws';
 /* Configuration */
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-/* Routes */ // if someone goes to "/" we redirect them to "/api/v1"
+/* Routes */
 const app = express();
-app.get('/', (req, res) => {
-	res.redirect('/api/v1');
-});
-app.use('/api/v1', mainRouter);
+app.use('/', mainRouter);
 
 
 /* Server and websocket */
