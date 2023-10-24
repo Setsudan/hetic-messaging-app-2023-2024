@@ -1,12 +1,12 @@
 CREATE TABLE "users"(
     "uid" UUID NOT NULL,
-    "profile_picture" VARCHAR(255) NOT NULL,
+    "profile_picture" VARCHAR(255) NULL,
     "display_name" VARCHAR(255) NOT NULL,
     "username" VARCHAR(255) NOT NULL,
-    "password" BIGINT NOT NULL,
-    "phone_number" VARCHAR(255) NOT NULL,
+    "password" VARCHAR NOT NULL,
+    "phone_number" VARCHAR(255) NULL,
     "email" VARCHAR(255) NOT NULL,
-    "about" VARCHAR(255) NOT NULL
+    "about" VARCHAR(255) NULL
 );
 
 CREATE TABLE "chats"(
@@ -31,7 +31,7 @@ ALTER TABLE
 CREATE TABLE "users_chats"(
     "uuid" UUID NOT NULL,
     "userUID" UUID NOT NULL,
-    "chatUID" BIGINT NOT NULL
+    "chatUID" UUID NOT NULL
 );
 ALTER TABLE
     "users_chats" ADD PRIMARY KEY("uuid");
@@ -41,12 +41,13 @@ CREATE TABLE "messages"(
     "chat_uid" UUID NULL,
     "group_uid" UUID NULL,
     "type" VARCHAR(255) CHECK
-        ("type" IN('')) NOT NULL,
-        "content" VARCHAR(255) NOT NULL,
-        "sent_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-        "seen_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
-        "delivered_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL
+        ("type" IN('text', 'image', 'video', 'audio', 'file')) NOT NULL,
+    "content" VARCHAR(255) NOT NULL,
+    "sent_at" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "seen_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL,
+    "delivered_at" TIMESTAMP(0) WITHOUT TIME ZONE NULL
 );
+
 ALTER TABLE
     "messages" ADD PRIMARY KEY("uid");
 

@@ -26,7 +26,7 @@ const server = app.listen(port, () => {
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws: WebSocket) => {
-	console.log('Client connected');
+	console.log('db connected');
 
 	ws.on('message', (message: string) => {
 		console.log('Message received: ' + message);
@@ -34,6 +34,6 @@ wss.on('connection', (ws: WebSocket) => {
 	});
 
 	ws.on('close', () => {
-		console.log('Client disconnected');
+		console.log('db disconnected');
 	});
 });

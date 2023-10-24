@@ -15,6 +15,10 @@ export default defineConfig({
 					link: '/docs/getting-started',
 				},
 				{
+					label: 'Installation',
+					link: '/docs/installation',
+				},
+				{
 					label: 'Connecter Websocket',
 					link: '/docs/connect-websocket',
 				},
