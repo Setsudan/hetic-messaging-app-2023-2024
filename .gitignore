@@ -4,3 +4,5 @@ pgadmin/**
 package-*.json
 *.local
 mobile/.env
+server/yarn.lock
+mobile/yarn.lock

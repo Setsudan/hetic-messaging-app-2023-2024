@@ -12,6 +12,11 @@
 		"declaration": true,
 		"sourceMap": true
 	},
-	"include": ["app/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"]
+	"include": [
+		"app/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	]
 }
