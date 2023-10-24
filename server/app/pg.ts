@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 
-const client = new Client({
+const db = new Client({
 	user: process.env.DB_USER,
 	host: 'postgres',
 	database: process.env.DB_NAME,
@@ -8,6 +8,6 @@ const client = new Client({
 	port: parseInt(process.env.DB_PORT || '5432'),
 });
 
-client.connect();
+db.connect();
 
-export default client;
+export default db;
