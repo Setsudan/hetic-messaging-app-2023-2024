@@ -4,4 +4,4 @@ const router = express.Router();
 
 router.use('/', userGetRouter);
 
-export {router as userRouter};
+export { router as userRouter };

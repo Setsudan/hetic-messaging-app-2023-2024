@@ -3,9 +3,10 @@
   "version": "0.0.20",
   "description": "",
   "scripts": {
-    "init": "concurrently \"cd server && npm install\" \"cd mobile && npm install\"",
+    "init": "npm install && concurrently \"cd server && npm install\" \"cd mobile && npm install\"",
     "start": "concurrently \"cd server && npm start\" \"cd mobile && npm start\"",
     "start:mobile": "cd mobile && npm start",
+    "start:server": "cd server && npm start",
     "build": "cd mobile && npm run build",
     "build:server": "cd server && npm install && npm run build",
     "build:mobile": "cd mobile && npm install && npm run build",

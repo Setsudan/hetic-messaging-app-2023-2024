@@ -4,4 +4,4 @@ const router = express.Router();
 
 router.use('/', authPostRouter);
 
-export {router as authRouter};
+export { router as authRouter };

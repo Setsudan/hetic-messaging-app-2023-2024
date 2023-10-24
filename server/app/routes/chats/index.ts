@@ -6,4 +6,4 @@ const router = express.Router();
 router.use('/', chatPostRouter);
 router.use('/', chatGetRouter);
 
-export {router as chatsRouter};
+export { router as chatsRouter };

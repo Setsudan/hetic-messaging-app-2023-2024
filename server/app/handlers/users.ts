@@ -1,3 +1,4 @@
+import sendRes from '../common/response.common';
 import { prisma } from '../prisma';
 import { Response } from '../types/response.types';
 
@@ -12,20 +13,8 @@ export async function getUsers(): Promise<Response> {
 				about: true,
 			},
 		});
-		return {
-			code: 200,
-			requestTime: new Date(),
-			message: 'Success',
-			apiVersion: process.env.API_VERSION || '',
-			data: result,
-		};
+		return sendRes(200, 'Success', result);
 	} catch (err) {
-		return {
-			code: 500,
-			requestTime: new Date(),
-			message: 'Server error',
-			apiVersion: process.env.API_VERSION || '',
-			data: [err],
-		};
+		return sendRes(500, 'Server error', [err]);
 	}
 }
