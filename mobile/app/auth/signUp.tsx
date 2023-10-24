@@ -133,7 +133,7 @@ export default function SignUpScreen() {
                 <Text
                     style={styles.label}
                     category="label">
-                    Comfirm Password
+                    Confirm Password
                 </Text>
                 <Input
                     value={confirmPassword}
