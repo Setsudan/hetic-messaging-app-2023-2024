@@ -24,4 +24,4 @@ router.use((req, res) => {
 	res.status(404).json(sendRes(404, 'Not found', []));
 });
 
-export {router as mainRouter};
+export { router as mainRouter };

@@ -23,5 +23,4 @@ router.post('/create', async (req: Request, res: Response) => {
 	res.status(200).json(sendRes(200, 'Success', [chat]));
 });
 
-
-export {router as chatPostRouter};
+export { router as chatPostRouter };

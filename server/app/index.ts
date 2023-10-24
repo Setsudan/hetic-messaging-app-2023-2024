@@ -12,7 +12,6 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 const app = express();
 app.use('/', mainRouter);
 
-
 /* Server and websocket */
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {

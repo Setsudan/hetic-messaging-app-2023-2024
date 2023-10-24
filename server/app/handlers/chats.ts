@@ -11,8 +11,7 @@ export async function createChat(body: Chats): Promise<unknown> {
 			},
 		});
 		return chat;
-	}
-	catch (err) {
+	} catch (err) {
 		return err;
 	}
 }
@@ -29,8 +28,7 @@ export async function getChats(): Promise<Response> {
 			},
 		});
 		return sendRes(200, 'Success', chats);
-	}
-	catch (err) {
+	} catch (err) {
 		return sendRes(500, 'Server error', [err]);
 	}
 }

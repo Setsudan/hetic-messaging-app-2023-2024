@@ -23,20 +23,19 @@ export async function createUser(body: UserForSignUp): Promise<Response> {
 			},
 		});
 		return sendRes(201, 'Success', [user]);
-	}
-	catch (err) {
+	} catch (err) {
 		return sendRes(500, 'Server error', [err]);
 	}
 }
 
-export async function loginUser(identity: string, password: string): Promise<Response> {
+export async function loginUser(
+	identity: string,
+	password: string,
+): Promise<Response> {
 	try {
 		const user = await prisma.users.findFirst({
 			where: {
-				OR: [
-					{ username: identity },
-					{ email: identity },
-				],
+				OR: [{ username: identity }, { email: identity }],
 			},
 		});
 		if (!user) {
@@ -46,11 +45,11 @@ export async function loginUser(identity: string, password: string): Promise<Res
 		if (!valid) {
 			return sendRes(401, 'Invalid password', []);
 		}
-		const token = process.env.JWT_SECRET ? sign({ uid: user.uuid }, process.env.JWT_SECRET) : '';
+		const token = process.env.JWT_SECRET
+			? sign({ uid: user.uuid }, process.env.JWT_SECRET)
+			: '';
 		return sendRes(200, 'Success', [{ token }]);
-	}
-	catch (err) {
+	} catch (err) {
 		return sendRes(500, 'Server error', [err]);
 	}
 }
-

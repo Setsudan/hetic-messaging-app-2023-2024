@@ -1,10 +1,10 @@
 import { getChats } from '../../handlers/chats';
 import express from 'express';
-import {Response} from '../../types/response.types';
+import { Response } from '../../types/response.types';
 import sendRes from '../../common/response.common';
 const router = express.Router();
 
-router.get('/getAll',  async (req, res) => {
+router.get('/getAll', async (req, res) => {
 	try {
 		const result: Response = await getChats();
 		if (result.code === 500) {
@@ -17,4 +17,4 @@ router.get('/getAll',  async (req, res) => {
 	}
 });
 
-export {router as chatGetRouter};
+export { router as chatGetRouter };

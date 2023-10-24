@@ -4,7 +4,6 @@ import { getUsers } from '../../handlers/users';
 import { Response } from '../../types/response.types';
 import sendRes from '../../common/response.common';
 
-
 router.get('/getAll', async (req, res) => {
 	try {
 		const result: Response = await getUsers();
@@ -18,5 +17,4 @@ router.get('/getAll', async (req, res) => {
 	}
 });
 
-
-export {router as userGetRouter};
+export { router as userGetRouter };
