@@ -6,6 +6,7 @@ export async function getUsers(): Promise<Response> {
 	try {
 		const result = await prisma.users.findMany({
 			select: {
+				uuid: true,
 				profile_picture: true,
 				display_name: true,
 				username: true,

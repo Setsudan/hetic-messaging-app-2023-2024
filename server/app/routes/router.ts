@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { defaultRouter } from './default/index';
 import { userRouter } from './users';
 import { authRouter } from './auth';
-import { chatsRouter } from './chats';
+import { channelRouter } from './channel';
 import sendRes from '../common/response.common';
 
 dotenv.config({ path: path.join(__dirname, '../../.env.local') });
@@ -17,7 +17,7 @@ router.use(express.urlencoded({ extended: false }));
 router.use('/', defaultRouter);
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
-router.use('/chats', chatsRouter);
+router.use('/channel', channelRouter);
 
 //Not found route
 router.use((req, res) => {
