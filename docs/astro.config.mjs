@@ -27,7 +27,7 @@ export default defineConfig({
 					autogenerate: { directory: 'reference' },
 				},
 				{
-					label: 'API',
+					label: 'Routes',
 					autogenerate: { directory: 'api' },
 				}
 			],
