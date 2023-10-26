@@ -35,5 +35,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "flat-badger-42"
-          entrypoint: "./index.ts" # 📝 Update the entrypoint if necessary
+          entrypoint: "./app/index.ts" # 📝 Update the entrypoint if necessary
           root: "./server" # 📝 Update the root if necessary
