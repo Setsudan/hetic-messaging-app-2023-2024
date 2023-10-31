@@ -7,6 +7,7 @@ import { userRouter } from './users';
 import { authRouter } from './auth';
 import { channelRouter } from './channel';
 import sendRes from '../common/response.common';
+import { filesRouter } from './files';
 
 dotenv.config({ path: path.join(__dirname, '../../.env.local') });
 const router = express.Router();
@@ -18,6 +19,7 @@ router.use('/', defaultRouter);
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
 router.use('/channel', channelRouter);
+router.use('/files', filesRouter);
 
 //Not found route
 router.use((req, res) => {

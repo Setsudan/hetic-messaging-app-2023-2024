@@ -19,6 +19,8 @@ export default function PinApiScreen() {
     }, []);
 
 
+
+
     return (
         <Layout style={{ flex: 1 }}>
             <Text category="h1" style={{ textAlign: "center", marginTop: 32 }}>

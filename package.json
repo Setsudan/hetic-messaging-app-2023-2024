@@ -14,7 +14,7 @@
     "lint:server": "cd server && npm run lint",
     "docker:start": "docker-compose up -d",
     "docker:build": "docker-compose up --build -d",
-    "docker:stop": "docker-compose down"    
+    "docker:stop": "docker-compose down"
   },
   "repository": {
     "type": "git",
