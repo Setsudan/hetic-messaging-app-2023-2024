@@ -63,3 +63,67 @@ Les réponses possibles sont :
     "data": ["err"],
 };
 ```
+
+### `/api/v1/auth/signUp`
+
+#### Success
+
+```json
+{
+    "code": 200,
+    "requestTime": "2023-10-23T07:49:26.825Z",
+    "message": "Success",
+    "apiVersion": "v0.0.1",
+    "data": [
+				"uuid",
+				"display_name",
+				"username",
+				"email",
+				"profile_picture",
+			]
+};
+```
+
+#### Errors
+
+```json
+{
+"code": 400,
+"requestTime": "2023-10-23T07:49:26.825Z",
+"message": "User is empty",
+"apiVersion": "v0.0.1",
+"data": [],
+};
+```
+
+```json
+{
+    "code": 400,
+    "requestTime": "2023-10-23T07:49:26.825Z",
+    "message": "Email is not valid",
+    "apiVersion": "v0.0.1",
+    "data": [],
+};
+```
+
+```json
+{
+    "code": 400,
+    "requestTime": "2023-10-23T07:49:26.825Z",
+    "message": "Password is not valid",
+    "apiVersion": "v0.0.1",
+    "data": [],
+};
+```
+
+#### Server error
+
+```json
+{
+    "code": 500,
+    "requestTime": "2023-10-23T07:49:26.825Z",
+    "message": "Server error",
+    "apiVersion": "v0.0.1",
+    "data": ["err"],
+};
+```

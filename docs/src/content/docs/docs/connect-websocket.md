@@ -5,21 +5,14 @@ description: Comment connecter l'api et l'application mobile en websocket ?
 
 # Connecter Websocket
 
-## Step 1 : Récupérer son adresse IP
+## Step 1: Utiliser Ngrok
 
-Pour connecter l'application mobile à l'API, il faut récupérer l'adresse IP de
-l'ordinateur sur lequel l'API est lancée. Pour cela, il faut ouvrir un terminal
-et taper la commande suivante :
+Dans le dossier parent vous avez un nouveau fichier `ngrok.exe`.
 
-```bash
-ipconfig
-```
+Pour lancer ngrok écriver la commande suivante : `ngrok http 8080`
 
-L'adresse IP est affichée dans la ligne `Adresse IPv4`.
-
-Malheureusement, cette adresse IP n'est pas fixe. Elle peut changer à chaque
-fois que l'ordinateur est redémarré. Il faut donc la récupérer à chaque fois que
-l'on veut connecter l'application mobile à l'API. **Ne fonctionne pas à HETIC.**
+ça ouvrira votre port 8080 au web à une adresse web donnée après la commande
+ci-dessus
 
 ## Step 2 : Lancer l'API
 
@@ -34,7 +27,7 @@ npm run start:server
 
 Pour connecter l'application mobile à l'API, il faut renseigner la variable
 environnementale `EXPO_PUBLIC_API_IP` dans le fichier `mobile/.env`. Il faut
-mettre l'adresse IP récupérée à l'étape 1.
+mettre l'adresse donnée par ngrok dans l'étape 1.
 
 ## Step 4 : Lancer l'application mobile
 
