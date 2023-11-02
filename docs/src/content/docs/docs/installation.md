@@ -46,14 +46,10 @@ Les valeurs des variables environnementales sont à récupérer dans le fichier
 `docker-compose.yml`
 
 ```env
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
 PORT=
 API_VERSION=
 JWT_SECRET=
+DATABASE_URL=
 ```
 
 #### 3.2. Configurer l'application mobile

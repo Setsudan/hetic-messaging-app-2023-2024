@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import { mainRouter } from './routes/router';
-import WebSocket from 'ws';
+import ws from 'ws';
 
 /* Configuration */
 dotenv.config({ path: path.join(__dirname, '../.env') });
@@ -12,24 +12,19 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 const app = express();
 app.use('/', mainRouter);
 
-/* Server and websocket */
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
-	console.log(`WebSocket listening on URL ws://localhost:${port}`);
+/* Websocket */
+
+export const wsServer = new ws.Server({ noServer: true });
+wsServer.on('connection', socket => {
+	socket.on('message', message => console.log(message));
 });
 
-const wss = new WebSocket.Server({ server });
+/* Server */
+const port = process.env.PORT || 3000;
+const server = app.listen(port);
 
-wss.on('connection', (ws: WebSocket) => {
-	console.log('db connected');
-
-	ws.on('message', (message: string) => {
-		console.log('Message received: ' + message);
-		ws.send('Message received: ' + message);
-	});
-
-	ws.on('close', () => {
-		console.log('db disconnected');
+server.on('upgrade', (request, socket, head) => {
+	wsServer.handleUpgrade(request, socket, head, socket => {
+		wsServer.emit('connection', socket, request);
 	});
 });
