@@ -1,49 +1,80 @@
 
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, ScrollView } from 'react-native';
 import { pb } from '../db/pocket';
+import { Link } from 'expo-router';
+
+const fileURI = "https://091c-77-132-153-46.ngrok-free.app/api/files/_pb_users_auth_/"
+
+const getUserById = async (id) => {
+    const user = await pb.collection('users').getOne(id);
+    return user.username;
+};
 
 export default function Home() {
-    const [userAvatar, setUserAvatar] = React.useState('');
-    const [userId, setUserId] = React.useState('');
-    const [seeListOfUsers, setSeeListOfUsers] = React.useState(false);
+    const [fetchedConversations, setFetchedConversations] = React.useState([]);
+    const [shownConversations, setShownConversations] = React.useState([]);
 
-    const [listOfUsers, setListOfUsers] = React.useState([]);
-
-    const getListOfUsers = async () => {
-        const users = await pb.collection('users').getFullList();
-        setListOfUsers(users);
+    const getConversations = async () => {
+        const records = await pb.collection('conversations').getFullList({
+            sort: '-created',
+        });
+        setFetchedConversations(records);
+        console.log(fetchedConversations);
+        fetchedConversations.map(async (conversation) => {
+            conversation.participants.map(async (participant) => {
+                const username = await getUserById(participant);
+                console.log(`user ${participant} is ${username} in conversation ${conversation.id}`);
+            });
+        });
     };
 
     useEffect(() => {
-        setUserAvatar(pb.authStore.model.avatar);
-        setUserId(pb.authStore.model.id);
-        getListOfUsers();
+        setFetchedConversations([]);
+        getConversations();
     }, []);
+
+    useEffect(() => {
+        const participantsUsername = [];
+        // shownConversations is almost the same as conversations except we only keep the participants usernames, and the conversation id
+        fetchedConversations.map(async (conversation) => {
+            // only if in the participants we have the current user id
+            if (conversation.participants.includes(pb.authStore.model.id)) {
+                // we modify the conversations structure by addind participantsUsername to it so we can display it on the home page
+                conversation.participants.map(async (participant) => {
+                    if (participant !== pb.authStore.model.id) {
+                        await participantsUsername.push(await getUserById(participant));
+                    }
+                }
+                );
+                setShownConversations([...shownConversations, { id: conversation.id, participantsUsername }]);
+            }
+        }
+        );
+    }
+        , [fetchedConversations]);
 
     return (
         <View style={styles.container}>
-            <Image source={{
-                uri: `https://091c-77-132-153-46.ngrok-free.app/api/files/_pb_users_auth_/${userId}/${userAvatar}`
-            }} style={{ width: 100, height: 100 }} />
-            <Text style={styles.title}>Home</Text>
-            <Button title="See list of users" onPress={() => setSeeListOfUsers(!seeListOfUsers)} />
-            {
-                seeListOfUsers && (
-                    <FlatList>
-                        {
-                            listOfUsers.map((user, index) => (
-                                <View key={index}>
-                                    <Image source={{
-                                        uri: "https://091c-77-132-153-46.ngrok-free.app/api/files/_pb_users_auth_/86lb43o4qim11lj/" + user.avatar
-                                    }} style={{ width: 100, height: 100 }} />
-                                    <Text>{user.name}</Text>
-                                </View>
-                            ))
-                        }
-                    </FlatList>
-                )
-            }
+            <Text style={styles.text}>Home</Text>
+            <Button title="refresh" onPress={() => getConversations()} />
+            <ScrollView>
+                {
+                    shownConversations.map((conversation) => {
+                        return (
+                            <Link
+                                style={styles.conversation}
+                                key={conversation.id} href={`/conversation/${conversation.id}`}>
+                                <Text>{
+                                    conversation.participantsUsername.map((username) => {
+                                        return `${username} `;
+                                    })
+                                }</Text>
+                            </Link>
+                        )
+                    })
+                }
+            </ScrollView>
         </View>
     );
 }
@@ -51,24 +82,21 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+
     },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30,
-    },
-    button: {
-        backgroundColor: '#007AFF',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 20,
-    },
-    buttonText: {
+    text: {
         color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 16,
     },
+    conversation: {
+        height: 50,
+        width: 300,
+        backgroundColor: '#ccc',
+        margin: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

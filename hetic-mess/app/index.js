@@ -6,7 +6,7 @@ import LoginScreen from '../components/auth/login';
 import Home from './home';
 
 const isLoggedIn = async () => {
-    const authData = await pb.authStore.isValid();
+    const authData = await pb.authStore.isValid;
     return authData;
 }
 
