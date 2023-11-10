@@ -1,39 +1,35 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { pb } from '../../db/pocket';
+
+import { login } from '../../common/auth';
 import { router } from 'expo-router';
-
-const login = async (identity, password) => {
-    try {
-        const authData = await pb.collection('users').authWithPassword(
-            identity,
-            password,
-        );
-
-        if (authData) {
-            router.replace('home');
-        }
-    } catch (error) {
-        console.error("An error occurred during login:", error);
-    }
-};
-
+import { pb } from '../../db/pocket';
 
 export default function LoginScreen() {
     const [identity, setidentity] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        login(identity, password);
+    const handleLogin = async () => {
+        const res = await login(identity, password);
         setidentity('');
         setPassword('');
+
+        if (res.record) {
+            router.replace('/home');
+        }
     };
 
     const fillForm = () => {
-        setidentity('hellosandie');
-        setPassword('6BKEkVZHi25ASKy');
+        setidentity('johndoe');
+        setPassword('UjA4KhU6c4seZuG');
     }
+
+    useEffect(() => {
+        if (pb.authStore.isValid) {
+            router.replace('/home');
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -47,7 +43,7 @@ export default function LoginScreen() {
                 placeholder="Identity"
                 onChangeText={(text) => setidentity(text)}
                 value={identity}
-                capitalize="none"
+                autoCapitalize='none'
             />
             <TextInput
                 style={styles.input}

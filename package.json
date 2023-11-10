@@ -1,0 +1,13 @@
+{
+  "name": "hetic-messaging-app-2023-2024",
+  "version": "1.0.0",
+  "scripts": {
+    "start:db": "cd db && pocketbase serve",
+    "start:ngrok": "ngrok http 8090"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
