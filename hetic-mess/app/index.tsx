@@ -6,9 +6,15 @@ import LoginScreen from '../components/auth/login';
 import Home from './home';
 
 const isLoggedIn = async () => {
-    const authData = await pb.authStore.isValid;
-    return authData;
+    try {
+        const authData = await pb.authStore.isValid;
+        return authData;
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        return false;
+    }
 }
+
 
 // if logged in redirect to home else redirect to login
 
@@ -16,10 +22,12 @@ export default function App() {
     const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
-        isLoggedIn().then((res) => {
+        (async () => {
+            const res = await isLoggedIn();
             setIsLogged(res);
-        });
+        })();
     }, []);
+    
 
     return (
         <View style={styles.container}>

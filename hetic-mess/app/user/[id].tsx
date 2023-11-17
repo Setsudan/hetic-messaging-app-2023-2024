@@ -1,55 +1,60 @@
-
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, Image, Button } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { pb } from '../../db/pocket';
+import { pb, filesUrl,  } from '../../db/pocket';
 
-const fileURI = "https://091c-77-132-153-46.ngrok-free.app/api/files/_pb_users_auth_/"
+const defaultUserState = {
+  avatar: '',
+  collectionId: '',
+  collectionName: '',
+  created: '',
+  emailVisibility: false,
+  id: '',
+  name: '',
+  updated: '',
+  username: '',
+  verified: false,
+};
 
 export default function UserScreen() {
-    const [user, setUser] = useState({
-        avatar: '',
-        collectionId: '',
-        collectionName: '',
-        created: '',
-        emailVisibility: false,
-        id: '',
-        name: '',
-        updated: '',
-        username: '',
-        verified: false,
-    });
-    const route = useRoute();
-    const { id } = route.params;
+  const [user, setUser] = useState(defaultUserState);
+  const route = useRoute();
+  const { id } = route.params;
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const userRef = await pb.collection('users').getOne(id);
-            setUser(userRef);
-        };
-        fetchUser();
-    }, [id]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userRef = await pb.collection('users').getOne(id);
+        setUser(userRef || defaultUserState);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
 
-    return (
+    fetchUser();
+  }, [id]);
+
+  const isCurrentUser = id === pb.authStore.model.id;
+
+  const handleEditPress = () => {
+
+    console.log('Edit button pressed');
+  };
+
+  return (
+    <View>
+      {user ? (
         <View>
-            {user ? (
-                <View>
-                    <Image source={{ uri: `${fileURI}${user.id}/${user.avatar}` }} style={{ width: 100, height: 100 }} />
-                    <Text>{user.name}</Text>
-                    <Text>{user.username}</Text>
-                    <Text>{
-                        user.emailVisibility ? 'Email visible' : 'Email not visible'
-                    }
-                    </Text>
-                    <Text>
-                        {
-                            user.verified ? 'Verified' : 'Not verified'
-                        }
-                    </Text>
-                </View>
-            ) : (
-                <Text>Loading...</Text>
-            )}
+          <Image source={{ uri: `${filesUrl}${user.id}/${user.avatar}` }} style={{ width: 100, height: 100 }} />
+          <Text>{user.name}</Text>
+          <Text>{user.username}</Text>
+          <Text>{user.emailVisibility ? 'Email visible' : 'Email not visible'}</Text>
+          <Text>{user.verified ? 'Verified' : 'Not verified'}</Text>
+          {isCurrentUser && <Button title="Edit" onPress={handleEditPress} />}
         </View>
-    );
+      ) : (
+        <Text>Loading...</Text>
+      )}
+    </View>
+  );
 }

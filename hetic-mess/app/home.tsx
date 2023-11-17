@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     StyleSheet, Text, View, ScrollView, TouchableOpacity, RefreshControl,
     SafeAreaView,
@@ -7,27 +7,9 @@ import {
 import { pb, filesUrl } from '../db/pocket';
 import { Link, router } from 'expo-router';
 
-const getUserById = async (id) => {
-    const user = await pb.collection('users').getOne(id);
-    return user.username;
-};
+import { extractParticipantsUsernames, filterConversationsByCurrentUser, getConversations } from '../functions/conversations';
 
-const getConversations = async () => {
-    const records = await pb.collection('conversations').getFullList({
-        sort: '-created',
-    });
-    return records;
-};
 
-const filterConversationsByCurrentUser = (conversations) => {
-    const currentUserID = pb.authStore.model.id;
-    return conversations.filter(conversation => conversation.participants.includes(currentUserID));
-};
-
-const extractParticipantsUsernames = async (participants) => {
-    const usernames = await Promise.all(participants.map(getUserById));
-    return usernames.filter(username => username !== pb.authStore.model.id);
-};
 
 const fetchData = async (): Promise<unknown[]> => {
     const fetchedConversations = await getConversations();
@@ -46,11 +28,6 @@ const fetchPeoples = async () => {
         filter: `id != "${pb.authStore.model.id}"`
     });
     return peoples;
-}
-
-const createConversation = async (data) => {
-    const conversation = await pb.collection('conversations').create(data);
-    return conversation;
 }
 
 const Home = () => {
