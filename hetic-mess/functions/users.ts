@@ -1,7 +1,6 @@
-import { pb } from "../db/pocket";
+import { pb } from '../db/pocket';
 
-export const getUserById = async (id) => {
-    const user = await pb.collection('users').getOne(id);
-    return user.username;
+export const getUserById = async id => {
+  const user = await pb.collection('users').getOne(id);
+  return user;
 };
-
