@@ -1,4 +1,4 @@
-import { Link, router, Slot } from "expo-router";
+import { Link, router, Slot } from 'expo-router';
 import React, { useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 
@@ -34,28 +34,26 @@ const Layout = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
-        <Link style={styles.title} href={'/home'}>
+        <Link style={styles.title} href="/home">
           Messaging App
         </Link>
-        <TouchableOpacity
-          onPress={() => {
-            router.push(`/user/${userId}`);
-          }}
-        >
-          <Image
-            source={finalUrl ? finalUrl : null}
-            contentFit="cover"
-            style={{ width: 50, height: 50 }}
-          />
-        </TouchableOpacity>
-        {pb.authStore.isValid ?? (
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
+            onPress={() => {
+              router.push(`/user/${userId}`);
+            }}
+            style={{ marginRight: 10 }}
+          >
+            <Text>🫅</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               pb.authStore.clear();
             }}
           >
             <Text>Logout</Text>
-          </TouchableOpacity>)}
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.content}>
         <Slot />

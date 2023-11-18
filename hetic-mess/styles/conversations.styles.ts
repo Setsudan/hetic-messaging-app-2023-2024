@@ -1,16 +1,17 @@
 // ConversationList component
 import { StyleSheet } from 'react-native';
+import palette from './palette';
 
 const conversationStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: palette.background,
   },
   conversationItem: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
+    borderBottomColor: palette.secondary,
   },
   conversationText: {
     fontSize: 18,
@@ -21,7 +22,7 @@ const conversationStyles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '#CCCCCC',
+    borderTopColor: palette.secondary,
   },
   input: {
     flex: 1,
@@ -29,26 +30,26 @@ const conversationStyles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: palette.secondary,
     borderRadius: 8,
   },
   button: {
     width: 40,
     height: 40,
     marginLeft: 8,
-    backgroundColor: '#4CAF50',
+    backgroundColor: palette.primary,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: palette.text,
     fontSize: 16,
   },
   sentMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#4CAF50',
-    color: '#FFFFFF',
+    backgroundColor: palette.primary,
+    color: palette.text,
     padding: 12,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -56,8 +57,8 @@ const conversationStyles = StyleSheet.create({
   },
   receivedMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#CCCCCC',
-    color: '#FFFFFF',
+    backgroundColor: palette.secondary,
+    color: palette.text,
     padding: 12,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -65,7 +66,7 @@ const conversationStyles = StyleSheet.create({
   },
   msgContent: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: palette.text,
   },
 });
 

@@ -1,5 +1,6 @@
 // AuthForm component
 import { StyleSheet } from 'react-native';
+import palette from './palette';
 
 const authFormStyles = StyleSheet.create({
   container: {
@@ -7,7 +8,7 @@ const authFormStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: palette.background,
   },
   input: {
     width: '100%',
@@ -16,7 +17,7 @@ const authFormStyles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: palette.secondary,
     borderRadius: 8,
   },
   title: {
@@ -27,7 +28,7 @@ const authFormStyles = StyleSheet.create({
   button: {
     width: '100%',
     height: 40,
-    backgroundColor: '#4CAF50',
+    backgroundColor: palette.primary,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -41,11 +42,11 @@ const authFormStyles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: palette.text,
     fontSize: 16,
   },
   secondaryButtonText: {
-    color: '#4CAF50',
+    color: palette.primary,
     fontSize: 16,
   },
   divider: {

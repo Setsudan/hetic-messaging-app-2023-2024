@@ -1,39 +1,16 @@
-import { Image } from 'expo-image';
-import { Link, router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  RefreshControl,
-  SafeAreaView,
-} from 'react-native';
+import { Image } from "expo-image";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import { pb, filesUrl } from '../db/pocket';
-import {
-  extractParticipantsUsernames,
-  filterConversationsByCurrentUser,
-  getConversations,
-  createConversation,
-} from '../functions/conversations';
+import { filesUrl, pb } from "../db/pocket";
+import { createConversation, filterConversationsByCurrentUser, getConversations } from "../functions/conversations";
+import homeStyles from "../styles/home.styles";
 
 const fetchData = async (): Promise<unknown[]> => {
   try {
     const fetchedConversations = await getConversations();
-    const filteredConversations =
-      filterConversationsByCurrentUser(fetchedConversations);
-    const updatedConversations = await Promise.all(
-      filteredConversations.map(async conversation => {
-        const participants = await extractParticipantsUsernames(
-          conversation.participants,
-        );
-        return { id: conversation.id, participants };
-      }),
-    );
-
-    return updatedConversations;
+    return filterConversationsByCurrentUser(fetchedConversations);
   } catch (error) {
     throw error; // Propagate the error for handling at a higher level
   }
@@ -73,7 +50,7 @@ const Home = () => {
     fetchDataAndLog();
   }, []);
 
-  const getParticipantsWithoutOurself = (participants: unknown[]):string => {
+  const getParticipantsWithoutOurself = (participants: unknown[]): string => {
     const ourself = pb.authStore.model.id;
     /*return participants.filter(participant => participant.id !== ourself);*/
     /* we need to return a string */
@@ -85,46 +62,50 @@ const Home = () => {
 
   useEffect(() => {
     if (shownConversations.length > 0) {
-      console.log('post loading', shownConversations);
       setLoading(false);
       setNoConversations(false);
     }
   }, [shownConversations]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={homeStyles.container}>
       {loading ? (
         <Text>Loading...</Text>
       ) : noConversations ? (
         <Text>No conversations</Text>
       ) : (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={homeStyles.conversationList}>
           {shownConversations.map(conv => (
             <TouchableOpacity
               key={conv.id}
-              style={styles.conversation}
+              style={homeStyles.conversationItem}
               onPress={() => router.replace(`/conversation/${conv.id}`)}
             >
-              <Text>{getParticipantsWithoutOurself(conv.participants)}</Text>
+              <Text>{conv.name}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       )}
       <TouchableOpacity
         onPress={() => setShowPeoples(!showPeoples)}
-        style={styles.btn}
+        style={homeStyles.createConversationButton}
       >
-        <Text style={[styles.btntxt, showPeoples ? styles.btntxtactive : null]}>
+        <Text
+          style={[
+            homeStyles.createConversationButtonText,
+            showPeoples ? homeStyles.createConversationButtonTextActive : null,
+          ]}
+        >
           +
         </Text>
       </TouchableOpacity>
       {showPeoples && (
-        <View style={styles.peoples}>
+        <View style={homeStyles.modal}>
           <ScrollView>
             {peoples.map(people => (
               <TouchableOpacity
                 key={people.id}
-                style={styles.peopleresult}
+                style={homeStyles.modalScrollContainer}
                 onPress={() =>
                   createConversation({
                     participants: [pb.authStore.model.id, people.id],
@@ -146,52 +127,5 @@ const Home = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  btn: {
-    position: 'absolute',
-    bottom: 30,
-    right: 30,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#f2f2f2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btntxt: {
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  btntxtactive: {
-    color: '#fff',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  conversation: {
-    padding: 20,
-    borderBottomColor: '#f2f2f2',
-    borderBottomWidth: 1,
-  },
-  peoples: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '80%',
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  peopleresult: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  scrollView: {
-    flexGrow: 1,
-  },
-});
 
 export default Home;
