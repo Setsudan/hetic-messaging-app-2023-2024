@@ -1,3 +1,5 @@
+import { Image } from 'expo-image';
+import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   StyleSheet,
@@ -7,78 +9,107 @@ import {
   TouchableOpacity,
   RefreshControl,
   SafeAreaView,
-  Image,
 } from 'react-native';
-import { Link, router } from 'expo-router';
 
 import { pb, filesUrl } from '../db/pocket';
 import {
   extractParticipantsUsernames,
   filterConversationsByCurrentUser,
   getConversations,
+  createConversation,
 } from '../functions/conversations';
 
 const fetchData = async (): Promise<unknown[]> => {
-  const fetchedConversations = await getConversations();
-  const filteredConversations =
-    filterConversationsByCurrentUser(fetchedConversations);
+  try {
+    const fetchedConversations = await getConversations();
+    const filteredConversations =
+      filterConversationsByCurrentUser(fetchedConversations);
+    const updatedConversations = await Promise.all(
+      filteredConversations.map(async conversation => {
+        const participants = await extractParticipantsUsernames(
+          conversation.participants,
+        );
+        return { id: conversation.id, participants };
+      }),
+    );
 
-  const updatedConversations = await Promise.all(
-    filteredConversations.map(async conversation => {
-      const participantsUsername = await extractParticipantsUsernames(
-        conversation.participants,
-      );
-      return { id: conversation.id, participantsUsername };
-    }),
-  );
-
-  return updatedConversations;
+    return updatedConversations;
+  } catch (error) {
+    throw error; // Propagate the error for handling at a higher level
+  }
 };
 
 const fetchPeoples = async () => {
-  const peoples = await pb.collection('users').getFullList({
-    filter: `id != "${pb.authStore.model.id}"`,
-  });
-  return peoples;
+  try {
+    const peoples = await pb.collection('users').getFullList({
+      filter: `id != "${pb.authStore.model.id}"`,
+    });
+    return peoples;
+  } catch (error) {
+    throw error; // Propagate the error for handling at a higher level
+  }
 };
 
 const Home = () => {
   const [shownConversations, setShownConversations] = useState([]);
-
   const [showPeoples, setShowPeoples] = useState(false);
   const [peoples, setPeoples] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [noConversations, setNoConversations] = useState(true);
 
   useEffect(() => {
-    fetchData().then(res => {
-      setShownConversations(res);
-    });
-    fetchPeoples().then(res => {
-      setPeoples(res);
-    });
+    const fetchDataAndLog = async () => {
+      try {
+        const conversationsRes = await fetchData();
+        setShownConversations(conversationsRes);
+
+        const peoplesRes = await fetchPeoples();
+        setPeoples(peoplesRes);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDataAndLog();
   }, []);
+
+  const getParticipantsWithoutOurself = (participants: unknown[]):string => {
+    const ourself = pb.authStore.model.id;
+    /*return participants.filter(participant => participant.id !== ourself);*/
+    /* we need to return a string */
+    return participants
+      .filter(participant => participant.id !== ourself)
+      .map(participant => participant.username)
+      .join(', ');
+  };
+
+  useEffect(() => {
+    if (shownConversations.length > 0) {
+      console.log('post loading', shownConversations);
+      setLoading(false);
+      setNoConversations(false);
+    }
+  }, [shownConversations]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={() => fetchData()} />
-        }
-      >
-        {shownConversations.map(conversation => (
-          <Link
-            style={styles.conversation}
-            key={conversation.id}
-            href={`/conversation/${conversation.id}`}
-          >
-            <Text>
-              {conversation.participantsUsername
-                .filter(username => username !== pb.authStore.model.username)
-                .join(',')}
-            </Text>
-          </Link>
-        ))}
-      </ScrollView>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : noConversations ? (
+        <Text>No conversations</Text>
+      ) : (
+        <ScrollView style={styles.scrollView}>
+          {shownConversations.map(conv => (
+            <TouchableOpacity
+              key={conv.id}
+              style={styles.conversation}
+              onPress={() => router.replace(`/conversation/${conv.id}`)}
+            >
+              <Text>{getParticipantsWithoutOurself(conv.participants)}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
       <TouchableOpacity
         onPress={() => setShowPeoples(!showPeoples)}
         style={styles.btn}
