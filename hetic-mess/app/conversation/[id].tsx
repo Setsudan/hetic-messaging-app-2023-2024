@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -41,25 +41,21 @@ const UserScreen = () => {
   const [messages, setMessages] = useState([]);
   const [conversationsMessages, setConversationsMessages] = useState([]);
   const [msg, setMsg] = useState('');
+  const scrollViewRef = useRef(null);
 
   const route = useRoute();
-  const { id } = route.params;
-  const isCurrentUser = pb.authStore.model.id === id;
+  const { id } = route.params as { id: string };
 
   const fetchConv = async () => {
     if (id) {
       const conv = await pb.collection('conversations').getOne(id);
+      console.log(conv);
       setConversationsMessages(conv.messages);
     }
   };
 
   useEffect(() => {
-    const subscription = pb.collection('messages').subscribe('*', fetchConv);
-
-    return () => {
-      // Unsubscribe when the component is unmounted
-      subscription.unsubscribe();
-    };
+    pb.collection('messages').subscribe('*', fetchConv);
   }, []);
 
   useEffect(() => {
@@ -88,11 +84,18 @@ const UserScreen = () => {
     setConversationsMessages([...conversationsMessages, res.id]);
   };
 
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  }, [messages]);
+
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.content}>
-        {messages.length > 0 ? (
-          messages.map(message => (
+      <ScrollView
+        style={styles.content}
+        ref={scrollViewRef}
+      >
+        {messages ? (
+          messages.map((message, index) => (
             <Text
               key={message.id}
               style={[
@@ -100,6 +103,7 @@ const UserScreen = () => {
                 message.sender === pb.authStore.model.id
                   ? styles.sentMessage
                   : styles.receivedMessage,
+                index === messages.length - 1 ? styles.lastMessage : null,
               ]}
             >
               {message.content}
@@ -125,20 +129,6 @@ const UserScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  message: {
-    padding: 10,
-    borderBottomWidth: 1,
-    width: '100%',
-    marginBottom: 10,
-  },
-  sentMessage: {
-    textAlign: 'right',
-    borderBottomColor: '#f2f2f2',
-  },
-  receivedMessage: {
-    textAlign: 'left',
-    backgroundColor: '#f2f2f2',
-  },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -148,25 +138,52 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    width: '100%',
+    right: 0,
+    backgroundColor: '#fff',
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  sendButton: {
+    color: '#007AFF',
+    fontWeight: 'bold',
+  },
+  message: {
+    padding: 10,
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginVertical: 5,
+    maxWidth: '75%',
+   
+  },
+  sentMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#DCF8C6',
+  },
+  receivedMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#ECECEC',
+  },
+  lastMessage: {
+    marginBottom: 50,
   },
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     backgroundColor: '#fff',
+    paddingBottom: 50,
   },
   content: {
     flex: 1,
     padding: 20,
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#f2f2f2',
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  sendButton: {
-    color: 'blue', // Customize the color as needed
+    height: '100%',
+    paddingBottom: 50,
   },
 });
 

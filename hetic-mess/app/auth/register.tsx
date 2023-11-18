@@ -1,10 +1,5 @@
 import React, { useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { pb } from '../../db/pocket';
 import { router } from 'expo-router';
@@ -48,7 +43,6 @@ export default function SignUpScreen() {
       router.replace('/home');
     }
   };
-
 
   return (
     <View style={authFormStyles.container}>

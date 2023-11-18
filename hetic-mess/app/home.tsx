@@ -16,6 +16,7 @@ import {
   extractParticipantsUsernames,
   filterConversationsByCurrentUser,
   getConversations,
+  createConversation,
 } from '../functions/conversations';
 
 const fetchData = async (): Promise<unknown[]> => {
