@@ -1,67 +1,65 @@
+import { useRoute } from '@react-navigation/native';
+import { router } from 'expo-router';
 import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
-  Image,
   ScrollView,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
+  RefreshControl,
+  Image,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { pb } from '../../db/pocket';
-
-const sendMessage = async ({ conversationId, sender, content }) => {
-  const message = await pb.collection('messages').create({
-    sender,
-    content,
-  });
-
-  if (message.id) {
-    await addMessageToConversation({ conversationId, messageId: message.id });
-    return message;
-  }
-};
-
-const addMessageToConversation = async ({ conversationId, messageId }) => {
-  const conversation = await pb
-    .collection('conversations')
-    .getOne(conversationId);
-  const messages = conversation.messages;
-  messages.push(messageId);
-  await pb.collection('conversations').update(conversationId, { messages });
-};
-
-const getMessageContent = async messageId => {
-  const message = await pb.collection('messages').getOne(messageId);
-  return message;
-};
+import { convFilesUrl as filesUrl, pb } from '../../db/pocket';
+import conversationStyles from '../../styles/conversations.styles';
+import * as ImagePicker from 'expo-image-picker';
 
 const UserScreen = () => {
+  // State variables
   const [messages, setMessages] = useState([]);
   const [conversationsMessages, setConversationsMessages] = useState([]);
   const [msg, setMsg] = useState('');
-  const scrollViewRef = useRef(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [file, setFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  // Navigation
   const route = useRoute();
-  const { id } = route.params as { id: string };
+  // @ts-ignore
+  const { id } = route.params;
 
+  // Fetch conversation on component mount
+  useEffect(() => {
+    if (typeof id !== 'undefined') {
+      fetchConv();
+    } else {
+      router.push('/home');
+    }
+  }, [id]);
+
+  // Fetch conversation details
   const fetchConv = async () => {
     if (id) {
       const conv = await pb.collection('conversations').getOne(id);
-      console.log(conv);
-      setConversationsMessages(conv.messages);
+      setConversationsMessages(conv?.messages || []);
     }
   };
 
-  useEffect(() => {
-    pb.collection('messages').subscribe('*', fetchConv);
-  }, []);
+  // Handle pull-to-refresh
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchConv();
+    setRefreshing(false);
+  };
 
-  useEffect(() => {
-    fetchConv();
-  }, [id]);
+  // Ref for ScrollView
+  const scrollViewRef = useRef();
 
+  // Scroll to the end of ScrollView
+  const scrollToEnd = () =>
+    scrollViewRef.current.scrollToEnd({ animated: true });
+
+  // Fetch messages and set state
   useEffect(() => {
     const fetchMessages = async () => {
       if (conversationsMessages.length > 0) {
@@ -71,120 +69,164 @@ const UserScreen = () => {
         setMessages(msgs);
       }
     };
+
     fetchMessages();
+    scrollToEnd();
+
+    // Ensure cleanup
+    return () => pb.collection('messages').unsubscribe('*');
   }, [conversationsMessages]);
 
-  const handleSendMessage = async () => {
-    const res = await sendMessage({
-      conversationId: id,
-      sender: pb.authStore.model.id,
-      content: msg,
-    });
-    setMsg('');
-    setConversationsMessages([...conversationsMessages, res.id]);
+  // Fetch content of a message
+  const getMessageContent = async (messageId) =>
+    await pb.collection('messages').getOne(messageId);
+
+  // Handle opening the media picker
+  const handleOpenMediaPicker = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        // Update state with the selected image
+        setFile(result.uri);
+        setSelectedImage(result.uri);
+      }
+    } catch (error) {
+      console.error('Error selecting media:', error);
+    }
   };
 
-  useEffect(() => {
-    scrollViewRef.current?.scrollToEnd({ animated: true });
-  }, [messages]);
+  // Handle removing the attached image
+  const handleRemoveImage = () => {
+    setFile(null);
+    setSelectedImage(null);
+  };
+
+  // Handle sending messages
+  const handleSendMessage = async () => {
+    if (msg || file) {
+      const formData = new FormData();
+      formData.append('content', msg);
+      formData.append('conversationId', id);
+      formData.append('sender', pb.authStore.model.id);
+      if (file) {
+        // If multimedia is attached, append it to the form data
+        formData.append('multimedia', {
+          uri: file,
+          name: 'media',
+          type: 'image/*', // Change the type based on the media type
+        });
+      }
+
+      try {
+        const message = await pb.collection('messages').create(formData);
+
+        if (message.id) {
+          const updatedMessages = [...conversationsMessages, message.id];
+          setConversationsMessages(updatedMessages);
+
+          const conversation = await pb.collection('conversations').getOne(id);
+          const updatedConversation = {
+            ...conversation,
+            messages: updatedMessages,
+          };
+          await pb.collection('conversations').update(id, updatedConversation);
+
+          // Reset input values
+          setMsg('');
+          setFile(null);
+          setSelectedImage(null);
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    }
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={conversationStyles.container}>
       <ScrollView
-        style={styles.content}
         ref={scrollViewRef}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        {messages ? (
-          messages.map((message, index) => (
-            <Text
+        {messages.length > 0 ? (
+          messages.map((message) => (
+            <View
               key={message.id}
-              style={[
-                styles.message,
+              style={
                 message.sender === pb.authStore.model.id
-                  ? styles.sentMessage
-                  : styles.receivedMessage,
-                index === messages.length - 1 ? styles.lastMessage : null,
-              ]}
+                  ? conversationStyles.sentMessage
+                  : conversationStyles.receivedMessage
+              }
             >
-              {message.content}
-            </Text>
+              <Text style={conversationStyles.msgContent}>
+                {message.content}
+              </Text>
+              {message.multimedia && (
+                <TouchableOpacity
+                  onPress={() =>
+                    router.push(`/media/${message.id}`)
+                  }
+                >
+                  <Image
+                    source={{ uri: pb.files.getUrl(message, message.multimedia) }}
+                    style={{ width: 200, height: 200 }}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
           ))
         ) : (
           <Text>Loading...</Text>
         )}
       </ScrollView>
-      <View style={styles.inputWrapper}>
+      <View style={conversationStyles.inputWrapper}>
+        {/* Input field for messages */}
         <TextInput
           placeholder="Something fun to say..."
-          style={styles.input}
+          style={conversationStyles.input}
           value={msg}
-          onChangeText={text => setMsg(text)}
+          onChangeText={(text) => setMsg(text)}
         />
-        <TouchableOpacity onPress={handleSendMessage}>
-          <Text style={styles.sendButton}>Send</Text>
+        {/* Button to open multimedia picker */}
+        <TouchableOpacity
+          style={conversationStyles.button}
+          onPress={handleOpenMediaPicker}
+        >
+          <Text style={conversationStyles.buttonText}>Attach Media</Text>
+        </TouchableOpacity>
+        {/* Indicator and button to remove attached image */}
+        {selectedImage && (
+          <View>
+            <Image
+              source={{ uri: selectedImage }}
+              style={{ width: 50, height: 50 }}
+            />
+            <TouchableOpacity
+              style={conversationStyles.button}
+              onPress={handleRemoveImage}
+            >
+              <Text style={conversationStyles.buttonText}>Remove Media</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {/* Button to send messages */}
+        <TouchableOpacity
+          style={conversationStyles.button}
+          onPress={handleSendMessage}
+        >
+          <Text style={conversationStyles.buttonText}>Send</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#fff',
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    backgroundColor: '#f2f2f2',
-    paddingHorizontal: 15,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  sendButton: {
-    color: '#007AFF',
-    fontWeight: 'bold',
-  },
-  message: {
-    padding: 10,
-    borderRadius: 10,
-    overflow: 'hidden',
-    marginVertical: 5,
-    maxWidth: '75%',
-   
-  },
-  sentMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#DCF8C6',
-  },
-  receivedMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#ECECEC',
-  },
-  lastMessage: {
-    marginBottom: 50,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    backgroundColor: '#fff',
-    paddingBottom: 50,
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-    height: '100%',
-    paddingBottom: 50,
-  },
-});
 
 export default UserScreen;
