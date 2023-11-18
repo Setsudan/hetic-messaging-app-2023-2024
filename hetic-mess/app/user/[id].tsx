@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { pb, filesUrl,  } from '../../db/pocket';
+
+import { pb, filesUrl } from '../../db/pocket';
 
 const defaultUserState = {
   avatar: '',
@@ -37,7 +38,6 @@ export default function UserScreen() {
   const isCurrentUser = id === pb.authStore.model.id;
 
   const handleEditPress = () => {
-
     console.log('Edit button pressed');
   };
 
@@ -45,10 +45,15 @@ export default function UserScreen() {
     <View>
       {user ? (
         <View>
-          <Image source={{ uri: `${filesUrl}${user.id}/${user.avatar}` }} style={{ width: 100, height: 100 }} />
+          <Image
+            source={{ uri: `${filesUrl}${user.id}/${user.avatar}` }}
+            style={{ width: 100, height: 100 }}
+          />
           <Text>{user.name}</Text>
           <Text>{user.username}</Text>
-          <Text>{user.emailVisibility ? 'Email visible' : 'Email not visible'}</Text>
+          <Text>
+            {user.emailVisibility ? 'Email visible' : 'Email not visible'}
+          </Text>
           <Text>{user.verified ? 'Verified' : 'Not verified'}</Text>
           {isCurrentUser && <Button title="Edit" onPress={handleEditPress} />}
         </View>

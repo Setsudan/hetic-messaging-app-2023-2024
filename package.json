@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start:db": "cd db && pocketbase serve",
-    "start:ngrok": "ngrok http 8090"
+    "start:ngrok": "ngrok http 8090",
+    "scripts": "echo start:db && echo start:ngrok"
   },
   "author": "",
   "license": "ISC",

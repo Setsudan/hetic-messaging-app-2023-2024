@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { pb } from '../../db/pocket';
 
@@ -16,13 +24,15 @@ const sendMessage = async ({ conversationId, sender, content }) => {
 };
 
 const addMessageToConversation = async ({ conversationId, messageId }) => {
-  const conversation = await pb.collection('conversations').getOne(conversationId);
+  const conversation = await pb
+    .collection('conversations')
+    .getOne(conversationId);
   const messages = conversation.messages;
   messages.push(messageId);
   await pb.collection('conversations').update(conversationId, { messages });
 };
 
-const getMessageContent = async (messageId) => {
+const getMessageContent = async messageId => {
   const message = await pb.collection('messages').getOne(messageId);
   return message;
 };
@@ -34,31 +44,46 @@ const UserScreen = () => {
 
   const route = useRoute();
   const { id } = route.params;
+  const isCurrentUser = pb.authStore.model.id === id;
+
+  const fetchConv = async () => {
+    if (id) {
+      const conv = await pb.collection('conversations').getOne(id);
+      setConversationsMessages(conv.messages);
+    }
+  };
 
   useEffect(() => {
-    const fetchConv = async () => {
-      if (id) {
-        const conv = await pb.collection('conversations').getOne(id);
-        setConversationsMessages(conv.messages);
-      }
+    const subscription = pb.collection('messages').subscribe('*', fetchConv);
+
+    return () => {
+      // Unsubscribe when the component is unmounted
+      subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
     fetchConv();
   }, [id]);
 
   useEffect(() => {
     const fetchMessages = async () => {
       if (conversationsMessages.length > 0) {
-        const msgs = await Promise.all(conversationsMessages.map(getMessageContent));
+        const msgs = await Promise.all(
+          conversationsMessages.map(getMessageContent),
+        );
         setMessages(msgs);
       }
     };
     fetchMessages();
   }, [conversationsMessages]);
 
-  const isCurrentUser = pb.authStore.model.id === id;
-
   const handleSendMessage = async () => {
-    const res = await sendMessage({ conversationId: id, sender: pb.authStore.model.id, content: msg });
+    const res = await sendMessage({
+      conversationId: id,
+      sender: pb.authStore.model.id,
+      content: msg,
+    });
     setMsg('');
     setConversationsMessages([...conversationsMessages, res.id]);
   };
@@ -67,10 +92,15 @@ const UserScreen = () => {
     <View style={styles.container}>
       <ScrollView style={styles.content}>
         {messages.length > 0 ? (
-          messages.map((message) => (
+          messages.map(message => (
             <Text
               key={message.id}
-              style={[styles.message, message.sender === pb.authStore.model.id ? styles.sentMessage : styles.receivedMessage]}
+              style={[
+                styles.message,
+                message.sender === pb.authStore.model.id
+                  ? styles.sentMessage
+                  : styles.receivedMessage,
+              ]}
             >
               {message.content}
             </Text>
@@ -81,10 +111,10 @@ const UserScreen = () => {
       </ScrollView>
       <View style={styles.inputWrapper}>
         <TextInput
-          placeholder='Something fun to say...'
+          placeholder="Something fun to say..."
           style={styles.input}
           value={msg}
-          onChangeText={(text) => setMsg(text)}
+          onChangeText={text => setMsg(text)}
         />
         <TouchableOpacity onPress={handleSendMessage}>
           <Text style={styles.sendButton}>Send</Text>

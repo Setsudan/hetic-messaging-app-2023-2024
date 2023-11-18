@@ -19,6 +19,11 @@ const authFormStyles = StyleSheet.create({
     borderColor: '#CCCCCC',
     borderRadius: 8,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
   button: {
     width: '100%',
     height: 40,
@@ -27,9 +32,26 @@ const authFormStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
   },
+  secondaryButton: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
+  },
+  secondaryButtonText: {
+    color: '#4CAF50',
+    fontSize: 16,
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 16,
   },
 });
 
