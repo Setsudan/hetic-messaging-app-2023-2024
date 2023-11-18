@@ -25,12 +25,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "87f65e71-aeff-4b10-b4b6-31e732b5751b"
-      }
-    },
-    "owner": "setsudan_expo",
     "plugins": [
       "expo-router",
       [
