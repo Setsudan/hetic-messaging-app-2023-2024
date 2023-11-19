@@ -12,46 +12,23 @@ import {
 } from 'react-native';
 
 import { pb } from '../../db/pocket';
-import { getConversations,createConversation } from '../../functions/conversations';
+import {
+  getConversations,
+  createConversation,
+} from '../../functions/conversations';
 import { getAllUsers } from '../../functions/users';
 import palette from '../../styles/palette';
-interface People {
-  avatar: string;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  email: string;
-  emailVisibility: boolean;
-  id: string;
-  name: string;
-  updated: string;
-  username: string;
-  verified: boolean;
-}
-
-interface Conversation {
-  collectionId: string;
-  collectionName: string;
-  conversation_image: string;
-  created: string;
-  id: string;
-  is_group: boolean;
-  messages: string[];
-  name: string;
-  updated: string;
-  username: string;
-  verified: boolean;
-}
+import { Conversation } from '../types/conversations.types';
+import { People } from '../types/people.type';
 
 const checkConversation = async (userId: string, participantsId: string) => {
   const conversations = await pb.collection('conversations').getFullList({
-    filter: `participants.id ?= "${participantsId}"`
+    filter: `participants.id ?= "${participantsId}"`,
   });
 
   console.log(conversations);
   return conversations;
-}
-
+};
 
 const CreateConversationScreen = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -64,12 +41,17 @@ const CreateConversationScreen = () => {
       const convParticipant = convParticipants[0];
 
       try {
-        const existingConversation = await checkConversation(pb.authStore.model.id, convParticipant.id);
+        const existingConversation = await checkConversation(
+          pb.authStore.model.id,
+          convParticipant.id,
+        );
 
         if (existingConversation.length > 0) {
           console.log('conv exist', existingConversation[0].id);
           // Redirect to existing conversation
-          router.push(`/conversations/conversation/${existingConversation[0].id}`);
+          router.push(
+            `/conversations/conversation/${existingConversation[0].id}`,
+          );
         } else {
           // Create a new conversation
           console.log('conversation does not exist');
@@ -77,9 +59,9 @@ const CreateConversationScreen = () => {
             participants: [pb.authStore.model.id, convParticipant.id],
             is_group: false,
             name: null,
-          }).then((rec)=>{
-            router.push(`/conversations/conversation/${rec.id}`)
-          })
+          }).then(rec => {
+            router.push(`/conversations/conversation/${rec.id}`);
+          });
         }
       } catch (error) {
         console.error('Error checking conversation:', error);
@@ -87,11 +69,14 @@ const CreateConversationScreen = () => {
     } else {
       console.log('Group');
       // Prompt for conversation name
-      const conversationName = prompt("Enter conversation name:");
+      const conversationName = prompt('Enter conversation name:');
 
       // Create a new conversation with multiple participants
       createConversation({
-        participants: [pb.authStore.model.id, ...convParticipants.map(participant => participant.id)],
+        participants: [
+          pb.authStore.model.id,
+          ...convParticipants.map(participant => participant.id),
+        ],
         is_group: true, // Set to true for group conversations
         name: conversationName,
       });
@@ -183,7 +168,10 @@ const CreateConversationScreen = () => {
           </View>
         ))}
       </ScrollView>
-      <TouchableOpacity style={styles.floatingButton} onPress={handleNextButtonClick}>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={handleNextButtonClick}
+      >
         <Text style={styles.floatingButtonText}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>

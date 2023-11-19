@@ -1,5 +1,6 @@
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
+import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -13,47 +14,15 @@ import { pb } from '../../db/pocket';
 import {
   filterConversationsByCurrentUser,
   getConversations,
+  formatSentAt
 } from '../../functions/conversations';
 import { getUserById } from '../../functions/users';
 import homeStyles from '../../styles/home.styles';
-
-interface People {
-  avatar: string;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  email: string;
-  emailVisibility: boolean;
-  id: string;
-  name: string;
-  updated: string;
-  username: string;
-  verified: boolean;
-}
-
-interface Conversation {
-  collectionId: string;
-  collectionName: string;
-  conversation_image: string;
-  created: string;
-  id: string;
-  is_group: boolean;
-  messages: string[];
-  name: string;
-  updated: string;
-}
-
-interface LastMessage {
-  content: string;
-  sender: string;
-  senderId: string;
-  sentAt: string;
-}
-
-interface UpdatedConversation extends Conversation {
-  last_message?: LastMessage;
-  participants: People[];
-}
+import {
+  Conversation,
+  UpdatedConversation,
+} from '../types/conversations.types';
+import { People } from '../types/people.type';
 
 function consoleDebug(message) {
   if (__DEV__) {
@@ -61,35 +30,14 @@ function consoleDebug(message) {
   }
 }
 
-const formatSentAt = (sentAt: string): string => {
-  const date = new Date(sentAt);
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-
-  if (minutes < 1) {
-    return 'now';
-  } else if (hours < 1) {
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  } else if (days < 1) {
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  } else {
-    // Format date without the hour
-    const options = { month: 'short', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
-  }
-};
-
 const handleConversations = async (
-  conversations: Conversation[],
+  conversations: UpdatedConversation[],
 ): Promise<UpdatedConversation[]> => {
   const updatedConversations: UpdatedConversation[] = [];
 
   for (const conversation of conversations) {
-    const participants: People[] = await Promise.all(
-      conversation.participants.map(async (participantId) => {
+    const participants: Awaited<RecordModel>[] = await Promise.all(
+      conversation.participants.map(async participantId => {
         if (participantId !== pb.authStore.model.id) {
           const user = await getUserById(participantId);
           return user;
@@ -98,7 +46,9 @@ const handleConversations = async (
     );
 
     // Filter out undefined values from the participants array
-    const filteredParticipants = participants.filter((participant) => participant);
+    const filteredParticipants = participants.filter(
+      participant => participant,
+    );
 
     consoleDebug(filteredParticipants);
 
@@ -117,7 +67,7 @@ const handleConversations = async (
           senderId: lastMessage.sender,
           sentAt: lastMessage.updated,
         },
-        participants: filteredParticipants,
+        participants: filteredParticipants as People[],
       });
     } catch (error) {
       consoleDebug(
@@ -192,7 +142,12 @@ const Index = () => {
               }
             >
               <Image
-                source={{ uri: pb.files.getUrl(conv.participants[0], conv.participants[0].avatar) }}
+                source={{
+                  uri: pb.files.getUrl(
+                    conv.participants[0],
+                    conv.participants[0].avatar,
+                  ),
+                }}
                 style={homeStyles.conversationAvatar}
               />
               <View style={homeStyles.conversationInfo}>
@@ -208,7 +163,10 @@ const Index = () => {
                     {conv.last_message?.senderId === pb.authStore.model.id
                       ? 'You: '
                       : `${conv.last_message?.sender}: `}
-                    {conv.last_message?.content}
+                    {/* Only first 25 char, and if longer add '...'*/}
+                    {conv.last_message?.content?.length >= 15
+                      ? `${conv.last_message?.content?.slice(0, 15)}...`
+                      : conv.last_message?.content}
                   </Text>
                   <Text style={homeStyles.conversationLastMessageDate}>
                     {formatSentAt(conv?.last_message?.sentAt)}

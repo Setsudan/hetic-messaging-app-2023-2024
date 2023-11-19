@@ -14,6 +14,7 @@ import {
 
 import { pb } from '../../../db/pocket';
 import conversationStyles from '../../../styles/conversations.styles';
+import { formatSentAt } from "../../../functions/conversations";
 
 const UserScreen = () => {
   // State variables
@@ -149,6 +150,7 @@ const UserScreen = () => {
     }
   };
 
+
   return (
     <View style={conversationStyles.container}>
       <ScrollView
@@ -201,7 +203,7 @@ const UserScreen = () => {
           style={conversationStyles.button}
           onPress={handleOpenMediaPicker}
         >
-          <Text style={conversationStyles.buttonText}>Attach Media</Text>
+          <Text style={conversationStyles.buttonText}>📎</Text>
         </TouchableOpacity>
         {/* Indicator and button to remove attached image */}
         {selectedImage && (

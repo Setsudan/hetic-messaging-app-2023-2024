@@ -57,7 +57,7 @@ const conversationStyles = StyleSheet.create({
   },
   receivedMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: palette.secondary,
+    backgroundColor: palette.accent,
     color: palette.text,
     padding: 12,
     marginVertical: 8,
