@@ -5,21 +5,32 @@ import palette from './palette';
 const homeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: palette.background,
   },
   scrollContainer: {
     flex: 1,
   },
   conversationList: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
   },
   conversationItem: {
     marginBottom: 16,
     padding: 16,
-    backgroundColor: palette.secondary,
     borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: palette.secondary,
+  },
+  conversationInfo: {
+    flex: 1,
+  },
+  conversationAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 16,
+    borderWidth: 1,
+    borderColor: palette.primary,
   },
   conversationTitle: {
     fontSize: 16,
@@ -29,6 +40,22 @@ const homeStyles = StyleSheet.create({
   conversationMessage: {
     fontSize: 14,
     color: palette.text,
+  },
+  conversationLastMessageContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  conversationLastMessage: {
+    fontSize: 14,
+    paddingVertical: 8,
+  },
+  conversationLastMessageDate: {
+    fontSize: 14,
+    paddingVertical: 8,
   },
   createConversationButton: {
     position: 'absolute',
@@ -44,19 +71,7 @@ const homeStyles = StyleSheet.create({
   createConversationButtonText: {
     color: palette.text,
     fontSize: 16,
-    },
-    createConversationButtonTextActive: {
-        transform: [{ rotate: '45deg' }],
-    },
-    modal: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: palette.background,
-    },
-    modalScrollContainer: {
-        flex: 1,
-    },
+  },
 });
 
 export default homeStyles;

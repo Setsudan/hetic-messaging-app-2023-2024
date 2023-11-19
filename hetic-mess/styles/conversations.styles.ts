@@ -64,10 +64,21 @@ const conversationStyles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 8,
   },
-  msgContent: {
-    fontSize: 16,
+  sentMessageText: {
+    textAlign: 'right',
+    paddingVertical: 8,
     color: palette.text,
   },
+  receivedMessageText: {
+    textAlign: 'left',
+    paddingVertical: 8,
+    color: palette.text,
+  },
+  multimedia: {
+    height: 200,
+    width: 200,
+    borderRadius: 8,
+  }
 });
 
 export default conversationStyles;

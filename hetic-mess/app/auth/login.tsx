@@ -21,7 +21,7 @@ export default function LoginScreen() {
   };
 
   const fillForm = () => {
-    setidentity('johndoe');
+    setidentity('malulu');
     setPassword('UjA4KhU6c4seZuG');
   };
 

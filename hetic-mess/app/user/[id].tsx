@@ -1,6 +1,7 @@
+import { useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+
 import { pb, filesUrl } from '../../db/pocket';
 
 const defaultUserState = {
@@ -34,32 +35,34 @@ export default function UserScreen() {
     fetchUser();
   }, [id]);
 
-  const logout = () => {
-    pb.authStore.clear();
-  };
-
   const isCurrentUser = id === pb.authStore.model.id;
 
   const handleEditPress = () => {
     console.log('Edit button pressed');
   };
 
+  useEffect(() => {
+    console.log({ uri: pb.files.getUrl(user, user.avatar) })
+  }, [user]);
+
   return (
     <View style={styles.userProfileContainer}>
       {user ? (
         <>
-          <Image style={styles.avatar} source={{ uri: `${filesUrl}${user.id}/${user.avatar}` }} />
+          <Image
+            style={styles.avatar}
+            source={{ uri: pb.files.getUrl(user, user.avatar) }}
+          />
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
-          <Text style={styles.verified}>{user.verified ? 'Verified' : 'Not verified'}</Text>
           {isCurrentUser && (
-            <TouchableOpacity onPress={handleEditPress} style={styles.editButton}>
+            <TouchableOpacity
+              onPress={handleEditPress}
+              style={styles.editButton}
+            >
               <Text>Edit</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
         </>
       ) : (
         <Text>Loading...</Text>

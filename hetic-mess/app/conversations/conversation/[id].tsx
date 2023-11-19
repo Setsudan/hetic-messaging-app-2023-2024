@@ -1,4 +1,5 @@
 import { useRoute } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -10,9 +11,9 @@ import {
   RefreshControl,
   Image,
 } from 'react-native';
-import { convFilesUrl as filesUrl, pb } from '../../db/pocket';
-import conversationStyles from '../../styles/conversations.styles';
-import * as ImagePicker from 'expo-image-picker';
+
+import { pb } from '../../../db/pocket';
+import conversationStyles from '../../../styles/conversations.styles';
 
 const UserScreen = () => {
   // State variables
@@ -78,7 +79,7 @@ const UserScreen = () => {
   }, [conversationsMessages]);
 
   // Fetch content of a message
-  const getMessageContent = async (messageId) =>
+  const getMessageContent = async messageId =>
     await pb.collection('messages').getOne(messageId);
 
   // Handle opening the media picker
@@ -157,7 +158,7 @@ const UserScreen = () => {
         }
       >
         {messages.length > 0 ? (
-          messages.map((message) => (
+          messages.map(message => (
             <View
               key={message.id}
               style={
@@ -166,21 +167,21 @@ const UserScreen = () => {
                   : conversationStyles.receivedMessage
               }
             >
-              <Text style={conversationStyles.msgContent}>
-                {message.content}
-              </Text>
               {message.multimedia && (
                 <TouchableOpacity
-                  onPress={() =>
-                    router.push(`/media/${message.id}`)
-                  }
+                  onPress={() => router.push(`/media/${message.id}`)}
                 >
                   <Image
-                    source={{ uri: pb.files.getUrl(message, message.multimedia) }}
-                    style={{ width: 200, height: 200 }}
+                    source={{
+                      uri: pb.files.getUrl(message, message.multimedia),
+                    }}
+                    style={conversationStyles.multimedia}
                   />
                 </TouchableOpacity>
               )}
+              <Text style={message.sender === pb.authStore.model.id ? conversationStyles.sentMessageText : conversationStyles.receivedMessageText}>
+                {message.content}
+              </Text>
             </View>
           ))
         ) : (
@@ -193,7 +194,7 @@ const UserScreen = () => {
           placeholder="Something fun to say..."
           style={conversationStyles.input}
           value={msg}
-          onChangeText={(text) => setMsg(text)}
+          onChangeText={text => setMsg(text)}
         />
         {/* Button to open multimedia picker */}
         <TouchableOpacity
