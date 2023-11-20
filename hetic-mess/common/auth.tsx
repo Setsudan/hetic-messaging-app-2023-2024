@@ -13,3 +13,17 @@ export const login = async (identity, password) => {
     return error;
   }
 };
+
+export interface RegisterData {
+  username: string;
+  email: string;
+  emailVisibility: boolean;
+  password: string;
+  passwordConfirm: string;
+  name: string;
+}
+
+export const register = async (props: RegisterData) => {
+  const record = await pb.collection('users').create(props);
+  return { record };
+};

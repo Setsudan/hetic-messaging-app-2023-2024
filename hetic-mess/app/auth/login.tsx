@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { login } from '../../common/auth';
 import { pb } from '../../db/pocket';
 import authFormStyles from '../../styles/auth.styles';
-
+import { seed } from "../../seed";
 export default function LoginScreen() {
   const [identity, setidentity] = useState('');
   const [password, setPassword] = useState('');
@@ -21,8 +21,11 @@ export default function LoginScreen() {
   };
 
   const fillForm = () => {
-    setidentity('malulu');
-    setPassword('UjA4KhU6c4seZuG');
+    // random user in seed
+    const randomUser =
+      seed[Math.floor(Math.random() * seed.length)];
+    setidentity(randomUser.username);
+    setPassword(randomUser.password);
   };
 
   useEffect(() => {

@@ -37,14 +37,6 @@ export default function UserScreen() {
 
   const isCurrentUser = id === pb.authStore.model.id;
 
-  const handleEditPress = () => {
-    console.log('Edit button pressed');
-  };
-
-  useEffect(() => {
-    console.log({ uri: pb.files.getUrl(user, user.avatar) })
-  }, [user]);
-
   return (
     <View style={styles.userProfileContainer}>
       {user ? (
@@ -55,14 +47,6 @@ export default function UserScreen() {
           />
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
-          {isCurrentUser && (
-            <TouchableOpacity
-              onPress={handleEditPress}
-              style={styles.editButton}
-            >
-              <Text>Edit</Text>
-            </TouchableOpacity>
-          )}
         </>
       ) : (
         <Text>Loading...</Text>

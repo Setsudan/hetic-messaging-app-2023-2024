@@ -1,11 +1,10 @@
 import { Slot } from "expo-router";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const Layout = () => {
   return (
     <>
       <Slot />
-      {__DEV__ && <Text style={styles.debugBanner}>Debug mode</Text>}
     </>
   );
 };
@@ -19,6 +18,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  debugBannerText: {
+    color: 'white',
+    fontWeight: 'bold',
+  }
 });
 
 export default Layout;

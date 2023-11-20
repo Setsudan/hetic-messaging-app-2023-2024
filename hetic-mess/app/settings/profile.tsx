@@ -12,7 +12,7 @@ import {
 
 import { pb } from '../../db/pocket';
 import palette from '../../styles/palette';
-import { People } from '../types/people.type';
+import { People } from '../../types/people.type';
 import { router } from "expo-router";
 
 export default function SettingsProfileScreen() {
@@ -22,6 +22,7 @@ export default function SettingsProfileScreen() {
   const [editedUsername, setEditedUsername] = useState('');
   const [file, setFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [verified, setVerified] = useState(false);
 
   const currentUser: People = pb.authStore.model;
 

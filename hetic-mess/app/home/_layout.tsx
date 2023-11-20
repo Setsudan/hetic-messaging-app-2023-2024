@@ -44,12 +44,14 @@ const Layout = () => {
             }}
             style={{ marginRight: 10 }}
           >
-            <Image
+            {pb.authStore.model.avatar ? (<Image
               source={{
-                uri: pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar),
+                uri: pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar)
               }}
               style={styles.avatar}
-            />
+            />) :
+              (<Text style={styles.title}>👤</Text>)
+            }
           </TouchableOpacity>
         </View>
       </View>
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   navbar: {
-    paddingTop: 0,
+    paddingTop: 35,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

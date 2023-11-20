@@ -16,17 +16,17 @@ import {
   getConversations,
   createConversation,
 } from '../../functions/conversations';
-import { getAllUsers } from '../../functions/users';
+import { getVerifiedUsers } from '../../functions/users';
 import palette from '../../styles/palette';
-import { Conversation } from '../types/conversations.types';
-import { People } from '../types/people.type';
+import { Conversation } from '../../types/conversations.types';
+import { People } from '../../types/people.type';
+import homeStyles from "../../styles/home.styles";
 
 const checkConversation = async (userId: string, participantsId: string) => {
   const conversations = await pb.collection('conversations').getFullList({
     filter: `participants.id ?= "${participantsId}"`,
   });
 
-  console.log(conversations);
   return conversations;
 };
 
@@ -47,14 +47,12 @@ const CreateConversationScreen = () => {
         );
 
         if (existingConversation.length > 0) {
-          console.log('conv exist', existingConversation[0].id);
           // Redirect to existing conversation
           router.push(
             `/conversations/conversation/${existingConversation[0].id}`,
           );
         } else {
           // Create a new conversation
-          console.log('conversation does not exist');
           createConversation({
             participants: [pb.authStore.model.id, convParticipant.id],
             is_group: false,
@@ -67,9 +65,10 @@ const CreateConversationScreen = () => {
         console.error('Error checking conversation:', error);
       }
     } else {
-      console.log('Group');
-      // Prompt for conversation name
-      const conversationName = prompt('Enter conversation name:');
+      // Conversation name will be the joined names of the all participants including the current user
+      const conversationName = convParticipants
+        .map(participant => participant.name)
+        .join(', ');
 
       // Create a new conversation with multiple participants
       createConversation({
@@ -79,6 +78,8 @@ const CreateConversationScreen = () => {
         ],
         is_group: true, // Set to true for group conversations
         name: conversationName,
+      }).then(rec => {
+        router.push(`/conversations/conversation/${rec.id}`)
       });
     }
   };
@@ -90,7 +91,7 @@ const CreateConversationScreen = () => {
     };
 
     const fetchPeoples = async () => {
-      const res = await getAllUsers();
+      const res = await getVerifiedUsers();
       setPeoples(res);
     };
 
@@ -100,14 +101,12 @@ const CreateConversationScreen = () => {
 
   const handleAddParticipant = (person: People) => {
     setConvParticipants(prevParticipants => [...prevParticipants, person]);
-    console.log(`${person.name} added to participants`);
   };
 
   const handleRemoveParticipant = (person: People) => {
     setConvParticipants(prevParticipants =>
       prevParticipants.filter(p => p.id !== person.id),
     );
-    console.log(`${person.name} removed from participants`);
   };
 
   const filteredPeople = peoples
@@ -157,8 +156,16 @@ const CreateConversationScreen = () => {
               }}
             >
               <Image
-                source={{ uri: pb.files.getUrl(person, person.avatar) }}
-                style={styles.avatar}
+                source={{
+                  uri:
+                    person.avatar === ''
+                      ? 'https://images.pexels.com/photos/1561020/pexels-photo-1561020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                      : pb.files.getUrl(
+                        person,
+                        person.avatar,
+                      ),
+                }}
+                style={homeStyles.conversationAvatar}
               />
               <Text>{person.name}</Text>
             </TouchableOpacity>

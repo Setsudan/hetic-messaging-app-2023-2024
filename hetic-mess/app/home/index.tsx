@@ -14,15 +14,15 @@ import { pb } from '../../db/pocket';
 import {
   filterConversationsByCurrentUser,
   getConversations,
-  formatSentAt
+  formatSentAt,
 } from '../../functions/conversations';
 import { getUserById } from '../../functions/users';
 import homeStyles from '../../styles/home.styles';
 import {
   Conversation,
   UpdatedConversation,
-} from '../types/conversations.types';
-import { People } from '../types/people.type';
+} from '../../types/conversations.types';
+import { People } from '../../types/people.type';
 
 function consoleDebug(message) {
   if (__DEV__) {
@@ -49,8 +49,6 @@ const handleConversations = async (
     const filteredParticipants = participants.filter(
       participant => participant,
     );
-
-    consoleDebug(filteredParticipants);
 
     const lastMessageId =
       conversation.messages[conversation.messages.length - 1];
@@ -117,15 +115,17 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       const conversations = await fetchConversationsWithLastMessage();
+
+      // Sort conversations by the most recent last_message
+      conversations.sort((a, b) =>
+        a.last_message?.sentAt > b.last_message?.sentAt ? -1 : 1
+      );
+
       setConversations(conversations);
       setShownConversations(conversations);
       setLoading(false);
     })();
   }, []);
-
-  useEffect(() => {
-    consoleDebug(['element', conversations[0]?.last_message?.sentAt]);
-  }, [conversations]);
 
   return (
     <SafeAreaView style={homeStyles.container}>
@@ -143,10 +143,13 @@ const Index = () => {
             >
               <Image
                 source={{
-                  uri: pb.files.getUrl(
-                    conv.participants[0],
-                    conv.participants[0].avatar,
-                  ),
+                  uri:
+                    conv.participants[0].avatar === ''
+                      ? 'https://images.pexels.com/photos/1561020/pexels-photo-1561020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                      : pb.files.getUrl(
+                          conv.participants[0],
+                          conv.participants[0].avatar,
+                        ),
                 }}
                 style={homeStyles.conversationAvatar}
               />

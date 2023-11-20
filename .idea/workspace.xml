@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f39c741a-d7b2-4156-8b7a-9254aa53cef6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/hetic-mess/seed.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/data.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/data.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/logs.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/logs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/48653846522_0001_IWBqaiqaRB.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/48653846522_0001_IWBqaiqaRB.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/thumbs_48653846522_0001_IWBqaiqaRB.jpg/100x100_48653846522_0001_IWBqaiqaRB.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/thumbs_48653846522_0001_IWBqaiqaRB.jpg/100x100_48653846522_0001_IWBqaiqaRB.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/thumbs_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg/100x100_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/thumbs_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg/100x100_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/06062022_0001_9DBHx76WbN.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/06062022_0001_9DBHx76WbN.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/thumbs_06062022_0001_9DBHx76WbN.jpg/100x100_06062022_0001_9DBHx76WbN.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/thumbs_06062022_0001_9DBHx76WbN.jpg/100x100_06062022_0001_9DBHx76WbN.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/media_85mq6MMAgv.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/media_85mq6MMAgv.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/thumbs_media_85mq6MMAgv.jpg/100x100_media_85mq6MMAgv.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/thumbs_media_85mq6MMAgv.jpg/100x100_media_85mq6MMAgv.jpg.attrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/home/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/settings/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/settings/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/settings/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/settings/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/types/conversations.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/types/conversations.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/types/people.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/types/people.type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/user/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/user/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/functions/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/functions/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/styles/conversations.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/conversations.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/styles/palette.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/palette.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2YRHQQNUdcdI9VnQXrb1OyV7Ejr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;release-20/11/2023&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Dev\\Repositories\\hetic-messaging-app-2023-2024\\hetic-mess\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="pocket_mess" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="pocket_mess" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f39c741a-d7b2-4156-8b7a-9254aa53cef6" name="Changes" comment="" />
+      <created>1700481459167</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700481459167</updated>
+      <workItem from="1700481462930" duration="5540000" />
+      <workItem from="1700495308940" duration="770000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

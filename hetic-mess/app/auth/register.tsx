@@ -1,36 +1,22 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 
-import { pb } from '../../db/pocket';
 import { router } from 'expo-router';
 import authFormStyles from '../../styles/auth.styles';
+import { register, RegisterData } from "../../common/auth";
 
-interface RegisterData {
-  username: string;
-  email: string;
-  emailVisibility: boolean;
-  password: string;
-  passwordConfirm: string;
-  name: string;
-}
 
-const register = async (props: RegisterData) => {
-  const record = await pb.collection('users').create(props);
-  return { record };
-};
 
 export default function SignUpScreen() {
-  const [identity, setidentity] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
 
   const handleRegister = async () => {
     const data: RegisterData = {
       username,
-      email,
+      email: '',
       emailVisibility: false,
       password,
       passwordConfirm,
@@ -52,13 +38,6 @@ export default function SignUpScreen() {
         placeholder="Username"
         onChangeText={text => setUsername(text)}
         value={username}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={authFormStyles.input}
-        placeholder="Email"
-        onChangeText={text => setEmail(text)}
-        value={email}
         autoCapitalize="none"
       />
       <TextInput

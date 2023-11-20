@@ -54,6 +54,7 @@ const conversationStyles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 8,
+    borderTopRightRadius: 0,
   },
   receivedMessage: {
     alignSelf: 'flex-start',
@@ -62,6 +63,7 @@ const conversationStyles = StyleSheet.create({
     padding: 12,
     marginVertical: 8,
     marginHorizontal: 16,
+    borderTopLeftRadius: 0,
     borderRadius: 8,
   },
   sentMessageText: {
@@ -72,12 +74,50 @@ const conversationStyles = StyleSheet.create({
   receivedMessageText: {
     textAlign: 'left',
     paddingVertical: 8,
-    color: palette.text,
+    color: "#333333",
   },
   multimedia: {
     height: 200,
     width: 200,
     borderRadius: 8,
+  },
+  receivedMessageSender: {
+    textAlign: 'left',
+    paddingVertical: 8,
+    color: palette.text,
+    fontWeight: 'bold',
+  },
+  receivedMessageAvatar: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+  },
+  header: {
+    paddingTop: 32,
+    height: 75,
+    backgroundColor: palette.primary,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 16,
+    backgroundColor: palette.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+  },
+  backButtonText: {
+    color: palette.text,
+    fontSize: 16,
+  },
+  headerTitle: {
+    color: palette.text,
+    fontSize: 18,
+    fontWeight: 'bold',
   }
 });
 

@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import { pb } from '../../../db/pocket';
+import { formatSentAt } from '../../../functions/conversations';
 import conversationStyles from '../../../styles/conversations.styles';
-import { formatSentAt } from "../../../functions/conversations";
 
 const UserScreen = () => {
   // State variables
@@ -24,6 +24,7 @@ const UserScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [file, setFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [conversations, setConversations] = useState();
 
   // Navigation
   const route = useRoute();
@@ -39,11 +40,24 @@ const UserScreen = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    /*pb.collection('conversations').subscribe('*', async (e) => {
+      await onRefresh();
+    });*/
+    // since real time doesn't work, we use this
+    /*const interval = setInterval(() => {
+      onRefresh();
+    }, 1000);
+
+    return () => clearInterval(interval);*/
+  }, []);
+
   // Fetch conversation details
   const fetchConv = async () => {
     if (id) {
       const conv = await pb.collection('conversations').getOne(id);
       setConversationsMessages(conv?.messages || []);
+      setConversations(conv);
     }
   };
 
@@ -109,6 +123,11 @@ const UserScreen = () => {
     setSelectedImage(null);
   };
 
+  // Handle autoscrolling to the end of ScrollView
+  useEffect(() => {
+    scrollToEnd();
+  }, [messages]);
+
   // Handle sending messages
   const handleSendMessage = async () => {
     if (msg || file) {
@@ -121,7 +140,7 @@ const UserScreen = () => {
         formData.append('multimedia', {
           uri: file,
           name: 'media',
-          type: 'image/*', // Change the type based on the media type
+          type: 'image/*',
         });
       }
 
@@ -150,9 +169,16 @@ const UserScreen = () => {
     }
   };
 
-
   return (
     <View style={conversationStyles.container}>
+      <View style={conversationStyles.header}>
+        <TouchableOpacity
+          style={conversationStyles.backButton}
+          onPress={() => router.push('/home')}
+        >
+          <Text style={conversationStyles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView
         ref={scrollViewRef}
         refreshControl={
@@ -181,7 +207,13 @@ const UserScreen = () => {
                   />
                 </TouchableOpacity>
               )}
-              <Text style={message.sender === pb.authStore.model.id ? conversationStyles.sentMessageText : conversationStyles.receivedMessageText}>
+              <Text
+                style={
+                  message.sender === pb.authStore.model.id
+                    ? conversationStyles.sentMessageText
+                    : conversationStyles.receivedMessageText
+                }
+              >
                 {message.content}
               </Text>
             </View>

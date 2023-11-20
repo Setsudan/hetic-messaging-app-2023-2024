@@ -8,3 +8,9 @@ export const getUserById = async id => {
 export const getAllUsers = async () => {
   return await pb.collection('users').getFullList();
 };
+
+export const getVerifiedUsers = async () => {
+  return await pb.collection('users').getFullList({
+    filter: 'verified = true'
+  });
+}
