@@ -15,6 +15,7 @@ import {
 import { pb } from '../../../db/pocket';
 import { formatSentAt } from '../../../functions/conversations';
 import conversationStyles from '../../../styles/conversations.styles';
+import {Video} from "expo-av";
 
 const UserScreen = () => {
   // State variables
@@ -25,6 +26,7 @@ const UserScreen = () => {
   const [file, setFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [conversations, setConversations] = useState();
+  const [loading, setLoading] = useState(true);
 
   // Navigation
   const route = useRoute();
@@ -33,8 +35,8 @@ const UserScreen = () => {
 
   // Fetch conversation on component mount
   useEffect(() => {
-    if (typeof id !== 'undefined') {
-      fetchConv();
+    if (typeof id !== 'undefined' && id !== null) {
+      fetchConv().finally(() => setLoading(false));
     } else {
       router.push('/home');
     }
@@ -169,6 +171,20 @@ const UserScreen = () => {
     }
   };
 
+  // get file extensions to know if it's an image, an audio or a video
+    const getMediaType = (fileName) => {
+        const ext = fileName.split('.').pop();
+        if (ext === 'jpg' || ext === 'png' || ext === 'gif' || ext === 'webp' || ext === 'avif') {
+            return 'image';
+        } else if (ext === 'mp4' || ext === 'mpeg' || ext === 'webm' || ext === 'avi') {
+            return 'video';
+        } else if (ext === 'mp3' || ext === 'wav' || ext === 'ogg') {
+            return 'audio';
+        } else {
+            return 'file';
+        }
+    }
+
   return (
     <View style={conversationStyles.container}>
       <View style={conversationStyles.header}>
@@ -185,42 +201,59 @@ const UserScreen = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {messages.length > 0 ? (
-          messages.map(message => (
-            <View
-              key={message.id}
-              style={
-                message.sender === pb.authStore.model.id
-                  ? conversationStyles.sentMessage
-                  : conversationStyles.receivedMessage
-              }
-            >
-              {message.multimedia && (
-                <TouchableOpacity
-                  onPress={() => router.push(`/media/${message.id}`)}
-                >
-                  <Image
-                    source={{
-                      uri: pb.files.getUrl(message, message.multimedia),
-                    }}
-                    style={conversationStyles.multimedia}
-                  />
-                </TouchableOpacity>
-              )}
-              <Text
-                style={
-                  message.sender === pb.authStore.model.id
-                    ? conversationStyles.sentMessageText
-                    : conversationStyles.receivedMessageText
-                }
-              >
-                {message.content}
-              </Text>
-            </View>
-          ))
-        ) : (
-          <Text>Loading...</Text>
-        )}
+        {
+          loading ? <Text>Loading...</Text> :<>
+              {messages.length > 0 ? (
+                    messages.map(message => (
+                        <View
+                            key={message.id}
+                            style={
+                              message.sender === pb.authStore.model.id
+                                  ? conversationStyles.sentMessage
+                                  : conversationStyles.receivedMessage
+                            }
+                        >
+                          {message.multimedia && (
+                              <TouchableOpacity
+                                  onPress={() => router.push(`/media/${message.id}`)}
+                              >
+                                {/* It can be .png,.jpg,.gif,.webp,.avif,.mp4,.mpeg,.webm,.avi*/}
+                                {getMediaType(message.multimedia) === 'image' ? (
+                                    <Image
+                                        source={{
+                                          uri: pb.files.getUrl(message, message.multimedia),
+                                        }}
+                                        style={conversationStyles.multimedia}
+                                    />
+                                ) : getMediaType(message.multimedia) === 'video' ? (
+                                    <Video
+                                        source={{
+                                          uri: pb.files.getUrl(message, message.multimedia),
+                                        }}
+                                        style={conversationStyles.multimedia}
+                                        useNativeControls
+                                    />
+                                ) : (
+                                    <Text>File</Text>
+                                )}
+                              </TouchableOpacity>
+                          )}
+                          <Text
+                              style={
+                                message.sender === pb.authStore.model.id
+                                    ? conversationStyles.sentMessageText
+                                    : conversationStyles.receivedMessageText
+                              }
+                          >
+                            {message.content}
+                          </Text>
+                        </View>
+                    ))
+                ) : (
+                    <Text>No messages yet!</Text>
+                )}
+            </>
+        }
       </ScrollView>
       <View style={conversationStyles.inputWrapper}>
         {/* Input field for messages */}

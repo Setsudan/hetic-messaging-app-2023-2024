@@ -9,6 +9,7 @@ import { seed } from "../../seed";
 export default function LoginScreen() {
   const [identity, setidentity] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = async () => {
     const res = await login(identity, password);
@@ -46,13 +47,23 @@ export default function LoginScreen() {
         value={identity}
         autoCapitalize="none"
       />
-      <TextInput
-        style={authFormStyles.input}
-        placeholder="Password"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry
-      />
+      <View style={authFormStyles.passwordContainer}>
+          <TextInput
+              style={authFormStyles.passwordInput}
+              placeholder="Password"
+              onChangeText={text => setPassword(text)}
+              value={password}
+                secureTextEntry={!passwordVisible}
+          />
+            <TouchableOpacity
+                style={authFormStyles.passwordVisibilityButton}
+                onPress={() => setPasswordVisible(!passwordVisible)}
+            >
+                <Text style={authFormStyles.buttonText}>
+                    {passwordVisible ? 'Hide' : 'Show'}
+                </Text>
+            </TouchableOpacity>
+      </View>
       <TouchableOpacity style={authFormStyles.button} onPress={handleLogin}>
         <Text style={authFormStyles.buttonText}>Login</Text>
       </TouchableOpacity>

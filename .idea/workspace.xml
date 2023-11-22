@@ -5,44 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f39c741a-d7b2-4156-8b7a-9254aa53cef6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hetic-mess/seed.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/data.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/data.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/pb_data/logs.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/logs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/48653846522_0001_IWBqaiqaRB.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/48653846522_0001_IWBqaiqaRB.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/thumbs_48653846522_0001_IWBqaiqaRB.jpg/100x100_48653846522_0001_IWBqaiqaRB.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/3gjhpvypqi6af1y/thumbs_48653846522_0001_IWBqaiqaRB.jpg/100x100_48653846522_0001_IWBqaiqaRB.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/thumbs_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg/100x100_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/521mmzvr269f3vp/thumbs_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg/100x100_20221104_174350_com_google_android_apps_photos_2_MND8dVgr10.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/06062022_0001_9DBHx76WbN.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/06062022_0001_9DBHx76WbN.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/thumbs_06062022_0001_9DBHx76WbN.jpg/100x100_06062022_0001_9DBHx76WbN.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/esnxu1ega7m2koz/thumbs_06062022_0001_9DBHx76WbN.jpg/100x100_06062022_0001_9DBHx76WbN.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/media_85mq6MMAgv.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/media_85mq6MMAgv.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/thumbs_media_85mq6MMAgv.jpg/100x100_media_85mq6MMAgv.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/storage/_pb_users_auth_/jivi71ho9ij5ws4/thumbs_media_85mq6MMAgv.jpg/100x100_media_85mq6MMAgv.jpg.attrs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/pb_data/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/types.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/_layout.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/home/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/settings/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/settings/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/settings/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/settings/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/types/conversations.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/types/conversations.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/types/people.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/types/people.type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/user/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/user/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/media/[messageId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/media/[messageId].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/functions/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/functions/users.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/styles/conversations.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/conversations.styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/styles/palette.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/palette.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/styles/auth.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/auth.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,11 +79,20 @@
       <option name="presentableId" value="Default" />
       <updated>1700481459167</updated>
       <workItem from="1700481462930" duration="5540000" />
-      <workItem from="1700495308940" duration="770000" />
+      <workItem from="1700495308940" duration="1428000" />
+      <workItem from="1700582123147" duration="1715000" />
+      <workItem from="1700594990247" duration="767000" />
+      <workItem from="1700640892458" duration="2331000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
   </component>
 </project>

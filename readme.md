@@ -16,44 +16,11 @@ yarn install
 
 ## Lancer le projet
 
-D'abord, il faut lancer la BDD:
-
-```bash
-npm run start:db
-```
-
-Ensuite, il faut utiliser ngrok pour pouvoir accéder à la BDD depuis l'application:
-
-```bash
-npm run start:ngrok
-```
-
-Cette commande donnera un lien "Forwarding" line. Copiez le lien et allez dans le fichier `hetic-mess/db/pocket.ts`.
-Remplacez la valeur de la variable `url` par le lien copié.
-
-Une fois que cela est fait, vous pouvez lancer l'application:
-
 ```bash
 cd hetic-mess && npm run start
 ```
 
 ## Troubleshooting
-
-## `npm run start:ngrok` ne fonctionne pas
-
-Si c'est le cas, il est fort probable que ce soit un problème de compte ngrok. Il est normalement configuré pour utiliser l'un des nôtres, mais si ce n'est pas le cas,
-vous pouvez créer un compte ngrok et utiliser votre propre token [ici](https://ngrok.com/download)
-
-Si vous suivez les instructions données sur le site, il n'y aura normalement pas de problèmes.
-
-## `npm run start:db` ne fonctionne pas
-
-Allez dans le dossier db et lancez le .exe de PocketBase. La documentation de pocketbase est disponible [ici](https://pocketbase.io/docs/)
-
-Il se peut que le problème vienne du fait que vous êtes sur Mac ou Linux.
-Dans ce cas, vous pouvez:
-- installer [wine](https://www.winehq.org/) et lancer le .exe avec wine.
-- Installer la version pocketbase correspondante à votre OS [ici](https://pocketbase.io/docs/)
 
 ## `npm run start` ne fonctionne pas
 

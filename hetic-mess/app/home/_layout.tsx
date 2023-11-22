@@ -7,13 +7,11 @@ import { pb, filesUrl } from '../../db/pocket';
 const Layout = () => {
   const [userAvatar, setUserAvatar] = React.useState('');
   const [userId, setUserId] = React.useState('');
-  const [finalUrl, setFinalUrl] = React.useState('');
 
   useEffect(() => {
     if (pb.authStore.isValid) {
-      setUserAvatar(pb.authStore.model.avatar);
+      setUserAvatar(pb.authStore.model?.avatar || '');
       setUserId(pb.authStore.model.id);
-      setFinalUrl(`${filesUrl}${userId}/${userAvatar}`);
     } else {
       setUserAvatar('');
       setUserId('');
@@ -24,7 +22,6 @@ const Layout = () => {
     if (pb.authStore.isValid) {
       setUserAvatar(pb.authStore.model.avatar);
       setUserId(pb.authStore.model.id);
-      setFinalUrl(`${filesUrl}${userId}/${userAvatar}`);
     } else {
       setUserAvatar('');
       setUserId('');
@@ -46,7 +43,7 @@ const Layout = () => {
           >
             {pb.authStore.model.avatar ? (<Image
               source={{
-                uri: pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar)
+                uri: pb.authStore.model?.avatar ? pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar) : '',
               }}
               style={styles.avatar}
             />) :

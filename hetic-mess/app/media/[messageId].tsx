@@ -9,8 +9,24 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import { Video} from "expo-av";
 
 import { pb } from '../../db/pocket';
+
+// get file extensions to know if it's an image, an audio or a video
+const getMediaType = (fileName) => {
+  const ext = fileName.split('.').pop();
+  if (ext === 'jpg' || ext === 'png' || ext === 'gif' || ext === 'webp' || ext === 'avif') {
+    return 'image';
+  } else if (ext === 'mp4' || ext === 'mpeg' || ext === 'webm' || ext === 'avi') {
+    return 'video';
+  } else if (ext === 'mp3' || ext === 'wav' || ext === 'ogg') {
+    return 'audio';
+  } else {
+    return 'file';
+  }
+}
+
 export default function MediaFullDisplayScreen() {
   const { messageId } = useRoute().params;
   const [media, setMedia] = useState(null);
@@ -47,7 +63,34 @@ export default function MediaFullDisplayScreen() {
         <Text>Back</Text>
       </TouchableOpacity>
       {media ? (
-        <Image source={{ uri: media }} style={{ width, height }} />
+        getMediaType(media) === 'image' ? (
+          <Image
+            source={{
+              uri: media,
+            }}
+            style={{
+              width: width,
+              height: height,
+            }}
+          />
+        ) : getMediaType(media) === 'video' ? (
+          <Video
+            source={{
+              uri: media,
+            }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={false}
+            shouldPlay
+            isLooping
+            style={{
+              width: width,
+              height: height,
+            }}
+          />
+        ) : (
+          <Text>Not supported</Text>
+        )
       ) : (
         <Text>Loading...</Text>
       )}

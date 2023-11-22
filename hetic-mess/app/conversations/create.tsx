@@ -16,7 +16,7 @@ import {
   getConversations,
   createConversation,
 } from '../../functions/conversations';
-import { getVerifiedUsers } from '../../functions/users';
+import {getAllUsers, getVerifiedUsers} from '../../functions/users';
 import palette from '../../styles/palette';
 import { Conversation } from '../../types/conversations.types';
 import { People } from '../../types/people.type';
@@ -91,7 +91,7 @@ const CreateConversationScreen = () => {
     };
 
     const fetchPeoples = async () => {
-      const res = await getVerifiedUsers();
+      const res = await getAllUsers();
       setPeoples(res);
     };
 
