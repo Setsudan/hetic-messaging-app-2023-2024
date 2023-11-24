@@ -6,19 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="f39c741a-d7b2-4156-8b7a-9254aa53cef6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/logs.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/logs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/pb_data/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/db/pb_data/types.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/auth/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/conversation/[id].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/conversations/create.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/home/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/app/media/[messageId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/app/media/[messageId].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/db/pocket.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/common/auth.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hetic-mess/styles/auth.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/styles/auth.styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hetic-mess/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/hetic-mess/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/lib/common/pocket.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/lib/common/pocket.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/lib/screens/auth/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/lib/screens/auth/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/lib/screens/home/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/lib/screens/home/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_v2/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_v2/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="4ulmiuok" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -45,6 +48,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;release-20/11/2023&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Dev/Repositories/rusty_dispatcher&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,7 +86,15 @@
       <workItem from="1700495308940" duration="1428000" />
       <workItem from="1700582123147" duration="1715000" />
       <workItem from="1700594990247" duration="767000" />
-      <workItem from="1700640892458" duration="2331000" />
+      <workItem from="1700640892458" duration="4001000" />
+      <workItem from="1700677628864" duration="199000" />
+      <workItem from="1700726202807" duration="247000" />
+      <workItem from="1700729180102" duration="14000" />
+      <workItem from="1700731216777" duration="49000" />
+      <workItem from="1700731780856" duration="293000" />
+      <workItem from="1700733970184" duration="78000" />
+      <workItem from="1700734060379" duration="115000" />
+      <workItem from="1700837706832" duration="1856000" />
     </task>
     <servers />
   </component>
@@ -94,5 +106,17 @@
     <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
     <option featureType="dependencySupport" implementationName="executable:docker" />
     <option featureType="dependencySupport" implementationName="executable:kubectl" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/hetic-mess/common/auth.tsx</url>
+          <line>12</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -13,8 +13,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void handleLogin() {
     // login needs identity and password
-
-    Navigator.pushNamed(context, '/home');
+    login(identity: identity, password: password).then((value) => {
+      if (value['success']) {
+        Navigator.pushNamed(context, '/home')
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value['data'])))
+      }
+    });
   }
 
   void goToRegisterPage() {

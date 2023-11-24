@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,17 @@ import {
   RefreshControl,
   Image,
 } from 'react-native';
+import { Video } from "expo-av";
 
 import { pb } from '../../../db/pocket';
 import { formatSentAt } from '../../../functions/conversations';
 import conversationStyles from '../../../styles/conversations.styles';
-import {Video} from "expo-av";
+
+const IMAGE_EXTENSIONS = ['jpg', 'png', 'gif', 'webp', 'avif'];
+const VIDEO_EXTENSIONS = ['mp4', 'mpeg', 'webm', 'avi'];
+const AUDIO_EXTENSIONS = ['mp3', 'wav', 'ogg'];
 
 const UserScreen = () => {
-  // State variables
   const [messages, setMessages] = useState([]);
   const [conversationsMessages, setConversationsMessages] = useState([]);
   const [msg, setMsg] = useState('');
@@ -27,80 +30,72 @@ const UserScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [conversations, setConversations] = useState();
   const [loading, setLoading] = useState(true);
+  const [convId, setConvId] = useState('');
 
-  // Navigation
   const route = useRoute();
-  // @ts-ignore
   const { id } = route.params;
 
-  // Fetch conversation on component mount
   useEffect(() => {
-    if (typeof id !== 'undefined' && id !== null) {
+    if (id) {
       fetchConv().finally(() => setLoading(false));
     } else {
       router.push('/home');
     }
+    setConvId(id);
   }, [id]);
 
-  useEffect(() => {
-    /*pb.collection('conversations').subscribe('*', async (e) => {
-      await onRefresh();
-    });*/
-    // since real time doesn't work, we use this
-    /*const interval = setInterval(() => {
-      onRefresh();
-    }, 1000);
-
-    return () => clearInterval(interval);*/
-  }, []);
-
-  // Fetch conversation details
-  const fetchConv = async () => {
-    if (id) {
+  const fetchConv = useCallback(async () => {
+    try {
       const conv = await pb.collection('conversations').getOne(id);
       setConversationsMessages(conv?.messages || []);
       setConversations(conv);
+    } catch (error) {
+      console.error('Error fetching conversation:', error);
     }
-  };
 
-  // Handle pull-to-refresh
-  const onRefresh = async () => {
+    console.log('id',id);
+  }, [id]);
+
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchConv();
     setRefreshing(false);
-  };
+  }, [fetchConv]);
 
-  // Ref for ScrollView
   const scrollViewRef = useRef();
 
-  // Scroll to the end of ScrollView
-  const scrollToEnd = () =>
-    scrollViewRef.current.scrollToEnd({ animated: true });
+  const scrollToEnd = useCallback(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  }, []);
 
-  // Fetch messages and set state
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (conversationsMessages.length > 0) {
+  const fetchMessages = useCallback(async () => {
+    if (conversationsMessages.length > 0) {
+      try {
         const msgs = await Promise.all(
-          conversationsMessages.map(getMessageContent),
+            conversationsMessages.map(getMessageContent),
         );
         setMessages(msgs);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
       }
-    };
-
-    fetchMessages();
-    scrollToEnd();
-
-    // Ensure cleanup
-    return () => pb.collection('messages').unsubscribe('*');
+    }
   }, [conversationsMessages]);
 
-  // Fetch content of a message
-  const getMessageContent = async messageId =>
-    await pb.collection('messages').getOne(messageId);
+  useEffect(() => {
+    fetchMessages();
+    scrollToEnd();
+  }, [fetchMessages, scrollToEnd]);
 
-  // Handle opening the media picker
-  const handleOpenMediaPicker = async () => {
+  const getMessageContent = useCallback(async messageId => {
+    try {
+      return await pb.collection('messages').getOne(messageId);
+    } catch (error) {
+      console.error('Error fetching message content:', error);
+      return null;
+    }
+  }, []);
+
+  const handleOpenMediaPicker = useCallback(async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -110,57 +105,50 @@ const UserScreen = () => {
       });
 
       if (!result.cancelled) {
-        // Update state with the selected image
         setFile(result.uri);
         setSelectedImage(result.uri);
       }
     } catch (error) {
       console.error('Error selecting media:', error);
     }
-  };
+  }, []);
 
-  // Handle removing the attached image
-  const handleRemoveImage = () => {
+  const handleRemoveImage = useCallback(() => {
     setFile(null);
     setSelectedImage(null);
-  };
+  }, []);
 
-  // Handle autoscrolling to the end of ScrollView
   useEffect(() => {
     scrollToEnd();
-  }, [messages]);
+  }, [messages, scrollToEnd]);
 
-  // Handle sending messages
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     if (msg || file) {
       const formData = new FormData();
       formData.append('content', msg);
-      formData.append('conversationId', id);
+      formData.append('conversationId', convId);
+      console.log('pb.authStore.model.id',pb.authStore.model?.id)
       formData.append('sender', pb.authStore.model.id);
       if (file) {
-        // If multimedia is attached, append it to the form data
+        const uriParts = file.split('.');
+        const fileType = uriParts[uriParts.length - 1];
         formData.append('multimedia', {
           uri: file,
-          name: 'media',
-          type: 'image/*',
+          name: `photo.${fileType}`,
+          type: `image/${fileType}`,
         });
       }
 
-      try {
-        const message = await pb.collection('messages').create(formData);
+      console.log('formData',formData);
 
+      try {
+        console.log('Tryin to send message');
+        const message = await pb.collection('messages').create(formData);
+        console.log('Message sent',message);
         if (message.id) {
+          console.log('Message sent',message);
           const updatedMessages = [...conversationsMessages, message.id];
           setConversationsMessages(updatedMessages);
-
-          const conversation = await pb.collection('conversations').getOne(id);
-          const updatedConversation = {
-            ...conversation,
-            messages: updatedMessages,
-          };
-          await pb.collection('conversations').update(id, updatedConversation);
-
-          // Reset input values
           setMsg('');
           setFile(null);
           setSelectedImage(null);
@@ -169,22 +157,68 @@ const UserScreen = () => {
         console.error('Error sending message:', error);
       }
     }
-  };
+  }, [msg, file, id, conversationsMessages]);
 
-  // get file extensions to know if it's an image, an audio or a video
-    const getMediaType = (fileName) => {
-        const ext = fileName.split('.').pop();
-        if (ext === 'jpg' || ext === 'png' || ext === 'gif' || ext === 'webp' || ext === 'avif') {
-            return 'image';
-        } else if (ext === 'mp4' || ext === 'mpeg' || ext === 'webm' || ext === 'avi') {
-            return 'video';
-        } else if (ext === 'mp3' || ext === 'wav' || ext === 'ogg') {
-            return 'audio';
-        } else {
-            return 'file';
-        }
+  const getMediaType = useCallback((fileName) => {
+    const ext = fileName.split('.').pop().toLowerCase();
+    if (IMAGE_EXTENSIONS.includes(ext)) {
+      return 'image';
+    } else if (VIDEO_EXTENSIONS.includes(ext)) {
+      return 'video';
+    } else if (AUDIO_EXTENSIONS.includes(ext)) {
+      return 'audio';
     }
+    return 'file';
+  }, []);
 
+  const renderMessage = useCallback((message) => {
+    const isSentByCurrentUser = message.sender === pb.authStore.model.id;
+    const messageType = getMediaType(message.multimedia);
+
+    return (
+        <View
+            key={message.id}
+            style={
+              isSentByCurrentUser
+                  ? conversationStyles.sentMessage
+                  : conversationStyles.receivedMessage
+            }
+        >
+          {message.multimedia && (
+              <TouchableOpacity onPress={() => router.push(`/media/${message.id}`)}>
+                {messageType === 'image' && (
+                    <Image
+                        source={{ uri: pb.files.getUrl(message, message.multimedia) }}
+                        style={conversationStyles.multimedia}
+                    />
+                )}
+                {messageType === 'video' && (
+                    <Video
+                        source={{ uri: pb.files.getUrl(message, message.multimedia) }}
+                        style={conversationStyles.multimedia}
+                        useNativeControls
+                    />
+                )}
+                {messageType === 'audio' && (
+                    <View>
+                      <Text>Audio not supported yet</Text>
+                    </View>
+                )}
+                {messageType === 'file' && <Text>File</Text>}
+              </TouchableOpacity>
+          )}
+          <Text
+              style={
+                isSentByCurrentUser
+                    ? conversationStyles.sentMessageText
+                    : conversationStyles.receivedMessageText
+              }
+          >
+            {message.content}
+          </Text>
+        </View>
+    );
+  }, [getMediaType]);
   return (
     <View style={conversationStyles.container}>
       <View style={conversationStyles.header}>
