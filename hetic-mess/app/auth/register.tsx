@@ -5,18 +5,37 @@ import { router } from 'expo-router';
 import authFormStyles from '../../styles/auth.styles';
 import { register, RegisterData } from "../../common/auth";
 
-
+const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})');
 
 export default function SignUpScreen() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
+    const [error, setError] = useState('');
 
   const handleRegister = async () => {
+      // check if all fields are filled
+        if (!username || !password || !passwordConfirm || !name) {
+            setError('Please fill in all fields');
+            return;
+        }
+
+        // check if password and password confirm are the same
+        if (password !== passwordConfirm) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        // password regex
+        if (!passwordRegex.test(password)) {
+            setError('Password must contain at least 8 characters, 1 uppercase, 1 lowercase and 1 number');
+            return;
+        }
+
     const data: RegisterData = {
       username,
-      email: '',
+      email: '', // empty cause we don't have OTP set up
       emailVisibility: false,
       password,
       passwordConfirm,
@@ -26,7 +45,7 @@ export default function SignUpScreen() {
     const res = await register(data);
 
     if (res.record) {
-      router.replace('/home');
+      router.replace('/auth/login');
     }
   };
 
@@ -61,6 +80,7 @@ export default function SignUpScreen() {
         value={name}
         autoCapitalize="none"
       />
+        <Text style={authFormStyles.error}>{error}</Text>
       <TouchableOpacity style={authFormStyles.button} onPress={handleRegister}>
         <Text style={authFormStyles.buttonText}>Sign Up</Text>
       </TouchableOpacity>

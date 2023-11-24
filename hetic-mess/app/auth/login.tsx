@@ -10,14 +10,22 @@ export default function LoginScreen() {
   const [identity, setidentity] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+    const [error, setError] = useState('');
   const handleLogin = async () => {
+      // check if both fields are filled
+        if (!identity || !password) {
+            setError('Please fill in both fields');
+            return;
+        }
     const res = await login(identity, password);
     setidentity('');
     setPassword('');
 
     if (res.record) {
       router.replace('/home');
+    }
+    else {
+        setError('Wrong username or password, does not exist or is incorrect');
     }
   };
 
@@ -64,6 +72,7 @@ export default function LoginScreen() {
                 </Text>
             </TouchableOpacity>
       </View>
+        <Text style={authFormStyles.error}>{error}</Text>
       <TouchableOpacity style={authFormStyles.button} onPress={handleLogin}>
         <Text style={authFormStyles.buttonText}>Login</Text>
       </TouchableOpacity>

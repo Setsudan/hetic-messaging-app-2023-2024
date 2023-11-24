@@ -76,7 +76,12 @@ const authFormStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginVertical: 8,
-  }
+  },
+    error: {
+        color: "red",
+        fontSize: 16,
+        textAlign: 'center',
+    },
 });
 
 export default authFormStyles;
