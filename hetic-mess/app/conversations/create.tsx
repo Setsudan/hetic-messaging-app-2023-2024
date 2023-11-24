@@ -16,7 +16,7 @@ import {
   getConversations,
   createConversation,
 } from '../../functions/conversations';
-import {getAllUsers, getVerifiedUsers} from '../../functions/users';
+import { getAllUsers, getVerifiedUsers } from '../../functions/users';
 import palette from '../../styles/palette';
 import { Conversation } from '../../types/conversations.types';
 import { People } from '../../types/people.type';
@@ -27,7 +27,7 @@ const checkConversation = async (userId: string, participantsId: string) => {
     filter: `participants.id ?= "${participantsId}"`,
   });
 
-  return conversations;
+  return conversations ?? [];  // Ensure an array is returned, even if null
 };
 
 const CreateConversationScreen = () => {
@@ -42,23 +42,23 @@ const CreateConversationScreen = () => {
 
       try {
         const existingConversation = await checkConversation(
-          pb.authStore.model.id,
-          convParticipant.id,
+            pb?.authStore?.model?.id ?? '',
+            convParticipant?.id ?? '',
         );
 
-        if (existingConversation.length > 0) {
+        if (existingConversation?.length > 0) {
           // Redirect to existing conversation
           router.push(
-            `/conversations/conversation/${existingConversation[0].id}`,
+              `/conversations/conversation/${existingConversation[0]?.id ?? ''}`,
           );
         } else {
           // Create a new conversation
           createConversation({
-            participants: [pb.authStore.model.id, convParticipant.id],
+            participants: [pb?.authStore?.model?.id ?? '', convParticipant?.id ?? ''],
             is_group: false,
             name: null,
           }).then(rec => {
-            router.push(`/conversations/conversation/${rec.id}`);
+            router.push(`/conversations/conversation/${rec?.id ?? ''}`);
           });
         }
       } catch (error) {
@@ -67,19 +67,19 @@ const CreateConversationScreen = () => {
     } else {
       // Conversation name will be the joined names of the all participants including the current user
       const conversationName = convParticipants
-        .map(participant => participant.name)
-        .join(', ');
+          .map(participant => participant?.name ?? '')
+          .join(', ');
 
       // Create a new conversation with multiple participants
       createConversation({
         participants: [
-          pb.authStore.model.id,
-          ...convParticipants.map(participant => participant.id),
+          pb?.authStore?.model?.id ?? '',
+          ...convParticipants.map(participant => participant?.id ?? ''),
         ],
         is_group: true, // Set to true for group conversations
         name: conversationName,
       }).then(rec => {
-        router.push(`/conversations/conversation/${rec.id}`)
+        router.push(`/conversations/conversation/${rec?.id ?? ''}`)
       });
     }
   };
@@ -87,12 +87,12 @@ const CreateConversationScreen = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       const res = await getConversations();
-      setConversations(res);
+      setConversations(res as unknown as Conversation[] ?? []);
     };
 
     const fetchPeoples = async () => {
       const res = await getAllUsers();
-      setPeoples(res);
+      setPeoples(res as unknown as People[] ?? []);
     };
 
     fetchConversations();
@@ -100,26 +100,30 @@ const CreateConversationScreen = () => {
   }, []);
 
   const handleAddParticipant = (person: People) => {
-    setConvParticipants(prevParticipants => [...prevParticipants, person]);
+    if (person && person.id) {
+      setConvParticipants(prevParticipants => [...prevParticipants, person]);
+    }
   };
 
   const handleRemoveParticipant = (person: People) => {
-    setConvParticipants(prevParticipants =>
-      prevParticipants.filter(p => p.id !== person.id),
-    );
+    if (person && person.id) {
+      setConvParticipants(prevParticipants =>
+          prevParticipants.filter(p => p.id !== person.id),
+      );
+    }
   };
 
   const filteredPeople = peoples
-    .filter(
-      person =>
-        person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        person.username.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
-    .filter(person => person.id !== pb.authStore.model.id)
-    .filter(
-      person =>
-        !convParticipants.some(participant => participant.id === person.id),
-    );
+      .filter(
+          person =>
+              person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              person.username.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+      .filter(person => person.id !== (pb?.authStore?.model?.id ?? ''))
+      .filter(
+          person =>
+              !convParticipants.some(participant => participant.id === person.id),
+      );
 
   return (
     <SafeAreaView style={styles.container}>

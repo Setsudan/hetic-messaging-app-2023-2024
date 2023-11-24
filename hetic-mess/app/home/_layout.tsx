@@ -41,9 +41,9 @@ const Layout = () => {
             }}
             style={{ marginRight: 10 }}
           >
-            {pb.authStore.model.avatar ? (<Image
+            {pb.authStore.model?.avatar ? (<Image
               source={{
-                uri: pb.authStore.model?.avatar ? pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar) : '',
+                uri: pb.authStore.model?.avatar ? pb.files.getUrl(pb.authStore.model, pb.authStore.model?.avatar) : '',
               }}
               style={styles.avatar}
             />) :
